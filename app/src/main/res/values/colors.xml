@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#C5A874</color>
+    <color name="colorPrimaryDark">#C5A874</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="main_background">#C5A874</color>
+    <color name="button_press">#FF7C42</color>
+    <color name="gray_f6">#f6f6f6</color>
+    <color name="gray_33">#333333</color>
+    <color name="gray_66">#666666</color>
+    <color name="gray_99">#999999</color>
+    <color name="gray_ea">#eaeaea</color>
+    <color name="gray_d7">#d7d7d7</color>
+    <color name="background_f2">#f2f2f2</color>
+    <color name="image_bg">#FFF1EFEF</color>
+    <color name="gray_d4">#d4d4d4</color>
+    <color name="green">#2DDB97</color>
+    <color name="green_press">#FF20D18C</color>
+    <color name="green1">#34e8a6</color>
+    <color name="green2">#22ddb0</color>
+
+
+    <color name="home_green">#18CB6D</color>
+    <color name="blue">#4ed3fd</color>
+    <color name="red">#fc353a</color>
+    <color name="gray_press">#FFE4E0E0</color>
+    <color name="blue_press">#FF15C0F5</color>
+    <color name="black_33">#333333</color>
+    <color name="home_title">#2ACBE0</color>
+    <color name="orange_ff">#ff712b</color>
+    <color name="orange_press">#FFDE5511</color>
+    <color name="orange_ff2">#FFF2EB</color>
+    <color name="blue_00">#0088ff</color>
+    <color name="hint_color">#FFC8C8C8</color>
+
+    <color name="colorPrimaryDark2">#18B4ED</color>
+    <color name="colorPrimaryDark1">#87ceeb</color>
+    <color name="colorText">#848484</color>
+    <color name="c_icon_normal">#848484</color>
+    <color name="c_icon">#56abe4</color>
+    <color name="colorPrimaryAlpha">#70000000</color>
+    <color name="colorPrimaryAlpha1">#BF58C2F7</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="transparent_half">#70000000</color>
+    <color name="transparent_half_darker">#90000000</color>
+    <color name="transparent_half_darker_darker">#a0000000</color>
+    <color name="transparent_half_darker_darker_dark">#b0000000</color>
+    <color name="border_e52">#e5e5e5</color>
+    <color name="border_e5">#B2B2B2</color>
+    <color name="c_F8F8F81">#C0C5CA</color>
+    <color name="c_F8F8F83">#BEC2C7</color>
+    <color name="c_B2B2B2">#B2B2B2</color>
+    <color name="c_F8F8F82">#DFE4EA</color>
+    <color name="c_cccccc">#cccccc</color>
+    <color name="c_divider">#E2E2E2</color>
+    <color name="c_press">#E2E2E2</color>
+    <color name="c_press_bt">#41A5D6</color>
+    <color name="blue_point">#18B4ED</color>
+    <color name="red_point">#990814</color>
+    <color name="red_point1">#DE2F24</color>
+    <!-- 主题颜色-->
+    <color name="top_color1">#20000000</color>
+    <color name="top_color2">#FFCECBCB</color>
+
+    <color name="top_color">#fd4b4d</color>
+    <color name="image_checked_bg">#66000000</color>
+
+    <!-- 黑色 -->
+    <color name="button_ensure">#ff6000</color>
+    <color name="cutting_line">#dfdfdf</color>
+    <color name="orange">#FF8111</color>
+    <color name="wheel_unselect_text">#c2c1c1</color>
+    <color name="wheel_bg">#f2f2f2</color>
+    <color name="common_line">#D1D1D1</color>
+
+    <color name="black_overlay">#66000000</color>
+
+    <color name="active_dianying1">#E2D6FF</color>
+    <color name="active_dianying2">#774FD3</color>
+
+    <color name="active_lipin1">#AFFFB6</color>
+    <color name="active_lipin2">#41D54E</color>
+
+    <color name="active_fanxian1">#B4F1FF</color>
+    <color name="active_fanxian2">#2ECBED</color>
+    <color name="shop_title_background">#FFB038</color>
+    <color name="shop_collection_button">#FF4F00</color>
+    <color name="shop_tab_unselect">#A9A9A9</color>
+    <color name="shop_background">#E5E5E5</color>
+    <color name="shop_money_text">#FF7C42</color>
+    <color name="shop_now_buy">#FF7000</color>
+    <color name="shop_line">#F4F4F4</color>
+    <color name="shop_category_line">#F3F3F3</color>
+    <color name="background">#f1f1f1</color>
+    <color name="bg_feedback">#EA4C4C</color>
+    <color name="bg_mine">#EFEFF4</color>
+    <color name="darkgray">#ffa9a9a9</color>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="toolbar" type="id"/>
+    <item name="status_bar" type="id"/>
+    <item name="app_title" type="id"/>
+    <item name="app_right_tv" type="id"/>
+    <item name="app_right_iv" type="id"/>
+
+    <item name="pcfl_refresh" type="id"/>
+    <item name="pl_load" type="id"/>
+
+</resources>
