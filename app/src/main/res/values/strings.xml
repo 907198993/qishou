@@ -6,5 +6,12 @@
 
     <string name="action_settings">Settings</string>
     <string name="rest">未开工</string>
+    <string name="job_summary">工作汇总</string>
+    <string name="my_wallet">我的钱包</string>
+    <string name="message">消息</string>
+    <string name="work_setting">接单设置</string>
+    <string name="help">帮助与反馈</string>
+    <string name="setting">设置</string>
+    <string name="kefu">联系客服</string>
 
 </resources>

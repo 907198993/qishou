@@ -3,33 +3,37 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/job_summary"
+            android:icon="@mipmap/menu_1"
+            android:title="@string/job_summary" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/my_wallet"
+            android:icon="@mipmap/menu_2"
+            android:title="@string/my_wallet" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/message"
+            android:icon="@mipmap/menu_3"
+            android:title="@string/message" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/work_setting"
+            android:icon="@mipmap/menu_4"
+            android:title="@string/work_setting" />
+        <item
+            android:id="@+id/help"
+            android:icon="@mipmap/menu_5"
+            android:title="@string/help" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/setting"
+                android:icon="@mipmap/menu_setting"
+                android:title="@string/setting" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/kefu"
+                android:icon="@mipmap/menu_kefu"
+                android:title="@string/kefu" />
         </menu>
     </item>
 

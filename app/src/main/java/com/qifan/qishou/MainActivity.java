@@ -52,6 +52,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     protected void initView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        navView.setItemIconTintList(null);
     }
 
     @Override
@@ -147,17 +148,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.job_summary) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.my_wallet) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.message) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.work_setting) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.help) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.setting) {
+
+        }else if (id == R.id.kefu) {
 
         }
 
