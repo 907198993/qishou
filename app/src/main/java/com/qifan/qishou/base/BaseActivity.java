@@ -80,10 +80,10 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
     private int appTitleColor,appRightTitleColor;
 //    private int appRightImg;
     private int titleBackgroud= R.color.main_background;
-    private int statusBarBackgroud= R.color.main_background;
+//    private int statusBarBackgroud= R.color.main_background;
     protected TextView app_title,app_right_tv;
     protected ImageView app_right_iv;
-    private View status_bar;
+//    private View status_bar;
     protected boolean hiddenBottomLine;
     protected PtrClassicFrameLayout pcfl;
 
@@ -138,12 +138,12 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
     public void setTitleBackgroud(int titleBackgroud) {
         this.titleBackgroud = titleBackgroud;
     }
-    public void setStatusBarBackgroud(int statusBarBackgroud) {
-        this.statusBarBackgroud = statusBarBackgroud;
-        if(status_bar!=null){
-            status_bar.setBackgroundColor(ContextCompat.getColor(mContext,statusBarBackgroud));
-        }
-    }
+//    public void setStatusBarBackgroud(int statusBarBackgroud) {
+//        this.statusBarBackgroud = statusBarBackgroud;
+//        if(status_bar!=null){
+//            status_bar.setBackgroundColor(ContextCompat.getColor(mContext,statusBarBackgroud));
+//        }
+//    }
     public void setAppTitleColor(int appTitleColor) {
         this.appTitleColor = appTitleColor;
     }
@@ -156,26 +156,26 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
         if(getRequestedOrientation()!= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
-        setTheme(R.style.AppTheme_NoActionBar);
+//        setTheme(R.AppTheme_NoActionBar);
         mContext=this;
         if(getContentView()!=0){
             setContentView(getContentView());
         }
-        if(Build.VERSION.SDK_INT< Build.VERSION_CODES.LOLLIPOP){
-//            StatusBarUtils.setTransparent(this);
-            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
-            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
-        }
+//        if(Build.VERSION.SDK_INT< Build.VERSION_CODES.LOLLIPOP){
+////            StatusBarUtils.setTransparent(this);
+//            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
+//            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
+//        }
 
         ButterKnife.bind(this);
-        if(null!=findViewById(R.id.status_bar)){
-            status_bar = findViewById(R.id.status_bar);
-            int statusBarHeight = StatusBarUtils.getStatusBarHeight(this);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.height=statusBarHeight;
-            status_bar.setLayoutParams(layoutParams);
-            status_bar.setBackgroundColor(ContextCompat.getColor(mContext,statusBarBackgroud));
-        }
+//        if(null!=findViewById(R.id.status_bar)){
+//            status_bar = findViewById(R.id.status_bar);
+//            int statusBarHeight = StatusBarUtils.getStatusBarHeight(this);
+//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//            layoutParams.height=statusBarHeight;
+//            status_bar.setLayoutParams(layoutParams);
+//            status_bar.setBackgroundColor(ContextCompat.getColor(mContext,statusBarBackgroud));
+//        }
         if(null!=findViewById(R.id.toolbar)){
             toolbar = (Toolbar) findViewById(R.id.toolbar);
             toolbar.setTitle("");
