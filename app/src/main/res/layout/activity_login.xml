@@ -33,9 +33,9 @@
                 app:my_ll_solid="@color/white"
                 >
                 <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="wrap_content"
-
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@mipmap/user_name"
                     android:layout_marginRight="10dp"
                     />
                 <com.github.customview.MyEditText
@@ -64,9 +64,9 @@
                 app:my_ll_solid="@color/white"
                 >
                 <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="wrap_content"
-
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@mipmap/password"
                     android:layout_marginRight="10dp"
                     />
                 <com.github.customview.MyEditText

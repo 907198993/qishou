@@ -20,6 +20,7 @@ import com.github.androidtools.PhoneUtils;
 import com.github.androidtools.inter.MyOnClickListener;
 import com.github.baseclass.view.MyPopupwindow;
 import com.qifan.qishou.Activity.LoginActivity;
+import com.qifan.qishou.Activity.MyWalletActivity;
 import com.qifan.qishou.adapter.MyViewPagerAdapter;
 import com.qifan.qishou.base.BaseActivity;
 import com.qifan.qishou.fragment.WaitListFragment;
@@ -151,6 +152,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (id == R.id.job_summary) {
             // Handle the camera action
         } else if (id == R.id.my_wallet) {
+            STActivity(MyWalletActivity.class);
 
         } else if (id == R.id.message) {
 

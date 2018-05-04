@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_f2"
+    >
+    <include layout="@layout/app_title"/>
+    <LinearLayout
+        android:paddingTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="horizontal"
+        android:background="@mipmap/wallet_background">
+     <LinearLayout
+         android:layout_width="0dp"
+         android:layout_weight="1"
+         android:layout_height="match_parent"
+         android:orientation="vertical">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:src="@mipmap/expected_income"/>
+         <ImageView
+             android:padding="20dp"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:src="@mipmap/zanwu"/>
+     </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:src="@mipmap/estimated_cost"/>
+            <ImageView
+                android:padding="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/zanwu"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:background="@color/white"
+        android:layout_gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="@string/remain_amount"
+                android:textColor="@color/black"
+                android:maxLines="1"
+                />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:text="0.00"
+                android:textSize="20sp"
+                android:gravity="center_vertical"
+                android:textColor="@color/red" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="@string/transit_amount"
+                android:textSize="12sp"
+                android:gravity="center_vertical"
+                android:textColor="@color/gray_33" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/qu_xian"
+
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@mipmap/quxian_background"
+            android:layout_centerInParent="true"
+            />
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/white"
+        >
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:padding="10dp"
+             android:text="@string/today_detail"/>
+        <TextView
+            android:id="@+id/history_detail_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_alignParentRight="true"
+            android:text="@string/history_detail"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/gray_66"
+            android:layout_below="@id/history_detail_tv"/>
+    </RelativeLayout>
+</LinearLayout>

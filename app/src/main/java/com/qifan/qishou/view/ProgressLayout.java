@@ -81,7 +81,7 @@ public class ProgressLayout extends RelativeLayout {
             mProgressView.setLayoutParams(layoutParams);
             mProgressView.setBackgroundColor(getResources().getColor(R.color.white));
 
-        } else { // else wrap progress bar in LinearLayout and set background color to LinearLayout
+        } else { // else wrap progress bar in LinearLayout and set wallet_background color to LinearLayout
             LinearLayout linearLayout = new LinearLayout(getContext());
             linearLayout.setGravity(Gravity.CENTER);
             linearLayout.setBackgroundColor(backgroundColor);

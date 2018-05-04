@@ -14,4 +14,8 @@
     <string name="setting">设置</string>
     <string name="kefu">联系客服</string>
 
+    <string name="remain_amount">我的余额 （元）</string>
+    <string name="transit_amount">当前无未到账金额</string>
+    <string name="today_detail">今日收支明细</string>
+    <string name="history_detail">历史明细 ></string>
 </resources>
