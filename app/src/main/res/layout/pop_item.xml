@@ -1,29 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/title_tools_bg"
+    android:orientation="vertical" >
 
-    >
-    <com.github.customview.MyTextView
+    <LinearLayout
         android:id="@+id/tv_start_work"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:text="接单"
-        android:textColor="@color/white"
-        android:gravity="center"
-        android:background="@color/gray_66"
-        app:my_tv_bottom_line="true"
-        />
-    <com.github.customview.MyTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:padding="5dp">
+        <ImageView
+            android:layout_marginLeft="7dp"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/ig_work" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="7dp"
+            android:text="@string/work" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/tv_rest"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:text="休息"
-        android:textColor="@color/white"
-        android:background="@color/gray_66"
-        android:gravity="center"
-        />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <ImageView
+            android:layout_marginLeft="7dp"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ig_work" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:layout_marginLeft="5dp"
+            android:text="@string/reset"
+            android:layout_marginRight="7dp"/>
+    </LinearLayout>
 
 </LinearLayout>

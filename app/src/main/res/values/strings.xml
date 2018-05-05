@@ -5,7 +5,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="rest">未开工</string>
+    <string name="rest">未开工 v</string>
     <string name="job_summary">工作汇总</string>
     <string name="my_wallet">我的钱包</string>
     <string name="message">消息</string>
@@ -19,5 +19,8 @@
     <string name="today_detail">今日收支明细</string>
     <string name="history_detail">历史明细 ></string>
     <string name="agree"> 我同意</string>
+
+    <string name="work"> 接单 </string>
+    <string name="reset"> 休息 </string>
 
 </resources>

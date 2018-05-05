@@ -1,5 +1,6 @@
 package com.qifan.qishou;
 
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -14,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.androidtools.PhoneUtils;
@@ -43,7 +45,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     ViewPager mainViewpager;
     @BindView(R.id.tv_start_or_rest)
     TextView tvStartOrRest;
-
+    private long mExitTime;
     @Override
     protected int getContentView() {
         return R.layout.activity_main;
@@ -117,8 +119,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if ((System.currentTimeMillis() - mExitTime) > 1500) {
+                showToastS("再按一次退出程序");
+                mExitTime = System.currentTimeMillis();
+            } else {
+                super.onBackPressed();
+            }
         }
+
     }
 
     @Override
@@ -177,26 +185,27 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (Pop == null) {
             View priceOrderView = LayoutInflater.from(mContext).inflate(R.layout.pop_item, null);
 
-            TextView tv_search_price_order = priceOrderView.findViewById(R.id.tv_start_work);
-            tv_search_price_order.setOnClickListener(getOrderListener(0, 0, tv_search_price_order, "接单中"));
+            LinearLayout tv_search_price_order = priceOrderView.findViewById(R.id.tv_start_work);
+            tv_search_price_order.setOnClickListener(getOrderListener(0, 0, tv_search_price_order, "接单中 v"));
 
-            TextView tv_search_price_order_asc = priceOrderView.findViewById(R.id.tv_rest);
-            tv_search_price_order_asc.setOnClickListener(getOrderListener(0, 1, tv_search_price_order_asc, "未开工"));
+            LinearLayout tv_search_price_order_asc = priceOrderView.findViewById(R.id.tv_rest);
+            tv_search_price_order_asc.setOnClickListener(getOrderListener(0, 1, tv_search_price_order_asc, "未开工 v"));
 
-            Pop = new MyPopupwindow(mContext, priceOrderView, PhoneUtils.getScreenWidth(mContext) /5, -1);
+            Pop = new MyPopupwindow(mContext, priceOrderView, PhoneUtils.getScreenWidth(mContext) /4, -1);
+            Pop.setBackground(new ColorDrawable(0));
         }
-        Pop.showAsDropDown(tvStartOrRest,0, 10);
+        Pop.showAsDropDown(tvStartOrRest,-20, 10);
     }
     @NonNull
-    private MyOnClickListener getOrderListener(int flag,final  int index, TextView textView,final String text) {
+    private MyOnClickListener getOrderListener(int flag,final  int index, LinearLayout textView,final String text) {
         return new MyOnClickListener() {
             @Override
             protected void onNoDoubleClick(View view) {
                 if(index==0){//
-                    tvStartOrRest.setText("接单中");
+                    tvStartOrRest.setText("接单中 v");
 
                 }else{
-                    tvStartOrRest.setText("未开工");
+                    tvStartOrRest.setText("未开工 v");
                 }
                 Pop.dismiss();
 //                showLoading();
@@ -204,5 +213,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         };
     }
+
+
 
 }
