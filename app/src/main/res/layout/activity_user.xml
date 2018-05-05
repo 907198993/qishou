@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_f2"
+    >
+    <include layout="@layout/app_title"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/wallet_background"
+                android:gravity="center">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/civ_my_img"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@mipmap/people" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_toRightOf="@id/civ_my_img"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:text="骑手姓名"
+                            android:textColor="@color/white" />
+
+                        <com.github.customview.MyTextView
+                            android:id="@+id/tv_shopping_qianggou"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:gravity="center"
+                            android:maxLines="1"
+                            android:padding="3dp"
+                            android:paddingBottom="5dp"
+                            android:paddingRight="3dp"
+                            android:paddingTop="5dp"
+                            android:text="信用分：100"
+                            android:textColor="@color/white"
+                            app:my_tv_all_line="true"
+                            app:my_tv_corner_radius="10dp" />
+                        <!--<com.github.customview.MyTextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="20dp"-->
+                        <!--android:text="信用分：100"-->
+                        <!--app:my_tv_corner_radius="10dp"-->
+                        <!--app:my_tv_solid="1dp"-->
+
+                        <!--android:textColor="@color/white" />-->
+                    </LinearLayout>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <com.github.customview.MyLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                app:my_ll_corner_topLeftRadius="4dp"
+                app:my_ll_corner_topRightRadius="4dp"
+                app:my_ll_solid="@color/white">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/user_name" />
+
+                <com.github.customview.MyEditText
+                    android:id="@+id/et_login_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="手机号"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:textSize="15sp" />
+            </com.github.customview.MyLinearLayout>
+
+            <com.github.customview.MyLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="2px"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                app:my_ll_corner_bottomLeftRadius="4dp"
+                app:my_ll_corner_bottomRightRadius="4dp"
+                app:my_ll_solid="@color/white">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/password" />
+
+                <com.github.customview.MyEditText
+                    android:id="@+id/et_login_pwd"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="密码"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:textSize="15sp" />
+            </com.github.customview.MyLinearLayout>
+
+            <TextView
+                android:id="@+id/tv_login_forget_pwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:text="忘记密码?"
+                android:textColor="@color/main_background" />
+
+            <com.github.customview.MyTextView
+                android:id="@+id/tv_login_commit"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="10dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="登录"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:my_tv_corner_radius="4dp"
+                app:my_tv_press="@color/button_press"
+                app:my_tv_solid="@color/main_background" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

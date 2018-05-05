@@ -25,6 +25,7 @@
         <activity android:name=".Activity.RegisterActivity"/>
         <activity android:name=".Activity.MyWalletActivity"/>
         <activity android:name=".Activity.ForgetPasswordActivity"/>
+        <activity android:name=".Activity.BillActivity"/>
 
 
     </application>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_f2"
+    >
+    <include layout="@layout/app_title"/>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:src="@mipmap/idcard_positive"
+
+                />
+    <com.github.customview.MyLinearLayout
+        android:background="@mipmap/background_add_idcard"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/idcard_add"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击上传"
+            android:layout_marginTop="7dp"
+            />
+    </com.github.customview.MyLinearLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:src="@mipmap/idcard_positive"
+
+                />
+            <com.github.customview.MyLinearLayout
+                android:background="@mipmap/background_add_idcard"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/idcard_add"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="点击上传"
+                    android:layout_marginTop="7dp"
+                    />
+            </com.github.customview.MyLinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                 android:layout_marginTop="10dp"
+                android:layout_height="30dp"
+                android:orientation="horizontal">
+            <com.github.customview.MyCheckBox
+                android:id="@+id/cb_shopingcart_select"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:textColor="@color/gray_33"
+                app:my_checkbox_normal="@mipmap/order17_normal"
+                app:my_checkbox_checked="@mipmap/order17"
+                android:textSize="15sp"
+                android:paddingLeft="5dp"
+                />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@mipmap/agreement"/>
+            </LinearLayout>
+
+            <com.github.customview.MyTextView
+                android:id="@+id/tv_register_commit"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:text="提交"
+                android:textColor="@color/white"
+                android:layout_margin="10dp"
+                app:my_tv_solid="@color/main_background"
+                app:my_tv_press="@color/button_press"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                app:my_tv_corner_radius="4dp"
+                android:textSize="15sp"
+                android:layout_marginTop="5dp"
+                />
+
+  </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

@@ -18,4 +18,6 @@
     <string name="transit_amount">当前无未到账金额</string>
     <string name="today_detail">今日收支明细</string>
     <string name="history_detail">历史明细 ></string>
+    <string name="agree"> 我同意</string>
+
 </resources>
