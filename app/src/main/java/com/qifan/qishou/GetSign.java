@@ -104,6 +104,15 @@ public class GetSign {
         return m.matches();
     }
 
+    public static boolean verForm(String num) {
+        String reg = "^\\d{15}$|^\\d{17}[0-9Xx]$";
+        if (!num.matches(reg)) {
+            System.out.println("Format Error!");
+            return false;
+        }
+        return true;
+    }
+
     public static String getWXSign(Map<String,String> params){
         StringBuilder sb = new StringBuilder();
         if(params instanceof HashMap){

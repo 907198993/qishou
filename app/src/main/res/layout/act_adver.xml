@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_spalsh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        />
+
+    <com.github.customview.MyTextView
+        android:id="@+id/tv_spalsh"
+        android:layout_width="65dp"
+        android:layout_height="30dp"
+        android:text="跳过 3"
+        android:textSize="15sp"
+        android:alpha="0.6"
+        android:gravity="center"
+        app:my_tv_corner_radius="15dp"
+        app:my_tv_solid="@color/gray_99"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="20dp"
+        android:textColor="@color/white"
+        />
+</RelativeLayout>

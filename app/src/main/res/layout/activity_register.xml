@@ -169,16 +169,47 @@
             android:layout_marginRight="10dp"
             />
         <com.github.customview.MyEditText
-            android:id="@+id/et_register_yqcode"
+            android:id="@+id/et_id_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="邀请码(选填)"
+            android:hint="请输入身份证上的真实姓名"
             android:textSize="15sp"
-            android:inputType="textPassword"
+            android:inputType="text"
             android:maxLines="1"
             android:imeOptions="actionNext"
             />
     </com.github.customview.MyLinearLayout>
+
+                <com.github.customview.MyLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="2px"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    app:my_ll_corner_bottomLeftRadius="4dp"
+                    app:my_ll_corner_bottomRightRadius="4dp"
+                    app:my_ll_solid="@color/white"
+                    >
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="10dp"
+                        />
+                    <com.github.customview.MyEditText
+                        android:id="@+id/et_id_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="请输入身份证号码"
+                        android:textSize="15sp"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:imeOptions="actionNext"
+                        />
+                </com.github.customview.MyLinearLayout>
     <com.github.customview.MyTextView
         android:id="@+id/tv_register_commit"
         android:layout_width="match_parent"

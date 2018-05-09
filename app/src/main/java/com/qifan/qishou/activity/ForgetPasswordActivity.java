@@ -1,4 +1,4 @@
-package com.qifan.qishou.Activity;
+package com.qifan.qishou.activity;
 
 import android.text.TextUtils;
 import android.view.View;

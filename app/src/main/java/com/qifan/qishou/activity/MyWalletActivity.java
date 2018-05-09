@@ -1,6 +1,5 @@
-package com.qifan.qishou.Activity;
+package com.qifan.qishou.activity;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
@@ -8,7 +7,6 @@ import com.qifan.qishou.R;
 import com.qifan.qishou.base.BaseActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
