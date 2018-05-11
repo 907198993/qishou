@@ -1,22 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <in.srain.cube.views.ptr.PtrClassicFrameLayout
-        android:id="@id/pcfl_refresh"
+    android:layout_height="match_parent"
+    android:background="@color/background_f2"
+    >
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:ptr_resistance="2.1"
-        app:ptr_ratio_of_header_height_to_refresh="1.2"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
         >
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_order_class"
+        <in.srain.cube.views.ptr.PtrClassicFrameLayout
+            android:id="@id/pcfl_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            app:ptr_resistance="2.1"
+            app:ptr_ratio_of_header_height_to_refresh="1.2"
             >
-        </android.support.v7.widget.RecyclerView>
-    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_order_class"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/ll_shopping_cart_bottom"
+                >
+            </android.support.v7.widget.RecyclerView>
+        </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 
+            <com.github.customview.MyLinearLayout
+                android:id="@+id/linear_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                app:my_ll_top_line="true"
+                android:layout_alignParentBottom="true"
+                >
+
+                <LinearLayout
+                    android:id="@+id/linear_shaixuan"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    >
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@mipmap/shaixuan"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:gravity="center"
+                        android:text="排序筛选"
+                        android:textSize="11sp"
+                        />
+                </LinearLayout>
+
+                <com.github.customview.MyTextView
+                    android:id="@+id/tv_refresh_order"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="刷新订单"
+                    android:layout_weight="6"
+                    app:my_tv_solid="@color/white"
+                    android:textColor="@color/black"
+                    app:my_tv_border_color="@color/black"
+                    app:my_tv_all_line="true"
+                    app:my_tv_corner_radius="50dp"
+                    android:layout_margin="8dp"
+                    android:gravity="center"
+                    android:ems="5"
+                    />
+            </com.github.customview.MyLinearLayout>
+    </RelativeLayout>
 </LinearLayout>

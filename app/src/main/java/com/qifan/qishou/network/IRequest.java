@@ -28,6 +28,8 @@ public interface IRequest {
     @GET("api/Login/RetrievePwd")
     Call<ResponseObj<Integer>> userRetrievePwd(@QueryMap Map<String,String> map);
 
-
+    //获取订单列表
+    @POST("api/Order/GetOrder")
+    Call<ResponseObj<LoginObj>> orderList(@QueryMap Map<String,String> map);
 
 }

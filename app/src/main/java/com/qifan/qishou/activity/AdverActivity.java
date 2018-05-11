@@ -58,6 +58,7 @@ public class AdverActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        imgPath = SPUtils.getPrefString(this, Config.imgPath, null);
         userName =  SPUtils.getPrefString(this, Config.user_name, null);
         if(!TextUtils.isEmpty(imgPath)){
             Glide.with(this).load(imgPath).error(R.drawable.splash).into(iv_spalsh);
@@ -67,9 +68,9 @@ public class AdverActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        if(!TextUtils.isEmpty(imgPath)){
+//        if(!TextUtils.isEmpty(imgPath)){
             setImg();
-        }
+//        }
     }
 
     private void setImg() {

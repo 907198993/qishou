@@ -38,4 +38,12 @@ public class ApiRequest extends BaseApiRequest {
         getGeneralClient(IRequest.class).userRetrievePwd(map).enqueue(callBack);
     }
 
+    public static void orderList(Map map, MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) {
+            callBack.onFailure(null, new NoNetworkException(Config.noNetWork));
+            return;
+        }
+        getGeneralClient(IRequest.class).orderList(map).enqueue(callBack);
+    }
+
 }

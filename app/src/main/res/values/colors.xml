@@ -28,6 +28,8 @@
     <color name="black_33">#333333</color>
     <color name="home_title">#2ACBE0</color>
     <color name="orange_ff">#ff712b</color>
+    <color name="order_list_price">#ff5200</color>
+    <color name="order_list_shop_address">#494949</color>
     <color name="orange_press">#FFDE5511</color>
     <color name="orange_ff2">#FFF2EB</color>
     <color name="blue_00">#0088ff</color>
