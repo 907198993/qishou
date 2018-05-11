@@ -63,7 +63,7 @@
                         android:text="法大大哥"
                         android:textStyle="bold"
                         android:textColor="@color/black"
-                        android:textSize="24sp"
+                        android:textSize="20sp"
                         />
                     <com.github.customview.MyTextView
                         android:id="@+id/tv_shop_address"
@@ -78,7 +78,7 @@
 
             <com.github.customview.MyImageView
                 android:layout_width="18dp"
-                android:layout_height="18dp"
+                android:layout_height="14dp"
                 android:src="@mipmap/distance_image"/>
 
             <LinearLayout
@@ -110,7 +110,7 @@
                         android:text="法大大哥"
                         android:textStyle="bold"
                         android:textColor="@color/black"
-                        android:textSize="24sp"
+                        android:textSize="20sp"
                         />
                     <com.github.customview.MyTextView
                         android:id="@+id/tv_customer_address"

@@ -2,25 +2,20 @@ package com.qifan.qishou.fragment;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.androidtools.PhoneUtils;
@@ -33,13 +28,17 @@ import com.github.baseclass.rx.MySubscriber;
 import com.github.baseclass.rx.RxBus;
 import com.github.customview.MyTextView;
 import com.qifan.qishou.Config;
+import com.qifan.qishou.GetSign;
 import com.qifan.qishou.R;
 import com.qifan.qishou.base.BaseFragment;
 import com.qifan.qishou.base.MyCallBack;
 import com.qifan.qishou.event.LocationEvent;
+import com.qifan.qishou.event.RefreshEvent;
+import com.qifan.qishou.event.ResetEvent;
 import com.qifan.qishou.network.ApiRequest;
 import com.qifan.qishou.network.response.OrderListObj;
 import com.qifan.qishou.network.response.ScreeningBean;
+import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
@@ -50,6 +49,7 @@ import java.util.Map;
 import java.util.Set;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
@@ -60,7 +60,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  * Created by Administrator on 2018/4/12.
  */
 
-public class WaitListFragment extends BaseFragment  implements LoadMoreAdapter.OnLoadMoreListener{
+public class WaitListFragment extends BaseFragment implements LoadMoreAdapter.OnLoadMoreListener {
 
     @BindView(R.id.rv_order_class)
     RecyclerView rvOrderClass;
@@ -71,20 +71,23 @@ public class WaitListFragment extends BaseFragment  implements LoadMoreAdapter.O
     @BindView(R.id.tv_refresh_order)
     MyTextView tvRefreshOrder;
     Unbinder unbinder;
+    @BindView(R.id.relative_reset)
+    RelativeLayout relativeReset;
+    Unbinder unbinder1;
     private Dialog shareDialog;
 
     private ScreeningBean screeningBean = new ScreeningBean();
     private List<ScreeningBean.TypeLisOneBean> typeListOne = new ArrayList<ScreeningBean.TypeLisOneBean>();
     private List<ScreeningBean.TypeListTwoBean> typeListTwo = new ArrayList<ScreeningBean.TypeListTwoBean>();
-    ScreeningBean.TypeLisOneBean  typeLisOneBean = new ScreeningBean.TypeLisOneBean();
-    ScreeningBean.TypeListTwoBean  typeLisTwoBean = new ScreeningBean.TypeListTwoBean();
-    private String[] screen= {"外卖单","帮买单","帮送单"};
-    private String[] sorting = {"取货距离近到远","配送距离近到远","运单金额高到低"};
+    ScreeningBean.TypeLisOneBean typeLisOneBean = new ScreeningBean.TypeLisOneBean();
+    ScreeningBean.TypeListTwoBean typeLisTwoBean = new ScreeningBean.TypeListTwoBean();
+    private String[] screen = {"外卖单", "帮买单", "帮送单"};
+    private String[] sorting = {"取货距离近到远", "配送距离近到远", "运单金额高到低"};
 
-    private String popScreen ;
+    private String popScreen;
     private String popSort;
 
-    public String longitudeAndlatitude ;//经纬度
+    public String longitudeAndlatitude;//经纬度
     LoadMoreAdapter adapter;
 
     @Override
@@ -95,38 +98,34 @@ public class WaitListFragment extends BaseFragment  implements LoadMoreAdapter.O
     @Override
     protected void initView() {
         //初始化筛选
-        for(int i = 0;i< screen.length;i++){
-            typeLisOneBean.setType_id(i+1);
+        for (int i = 0; i < screen.length; i++) {
+            typeLisOneBean.setType_id(i + 1);
             typeLisOneBean.setType_name(screen[i]);
             typeListOne.add(typeLisOneBean);
         }
         screeningBean.setTypeListOne(typeListOne);
         //初始化排序
-        for(int i = 0;i< sorting.length;i++){
-            typeLisTwoBean.setType_id(i+1);
+        for (int i = 0; i < sorting.length; i++) {
+            typeLisTwoBean.setType_id(i + 1);
             typeLisTwoBean.setType_name(screen[i]);
             typeListTwo.add(typeLisTwoBean);
         }
         screeningBean.setTypeListTwo(typeListTwo);
 
-        adapter=new LoadMoreAdapter<OrderListObj>(mContext,R.layout.item_order_list,pageSize) {
+        adapter = new LoadMoreAdapter<OrderListObj>(mContext, R.layout.item_order_list, pageSize) {
             @Override
             public void bindData(LoadMoreViewHolder holder, int position, OrderListObj bean) {
-//                .setText(R.id.tv_order_price,(bean.getCharge()))
-//                .setText(R.id.tv_shop_distance, (bean.getQsdistance()))
-                holder
-                        .setText(R.id.tv_shop_name,bean.getShopName())
-                        .setText(R.id.tv_shop_address,bean.getShopAddress())
-//                        .setText(R.id.tv_customer_distance,(bean.getScdistance()))
-                        .setText(R.id.tv_customer_name,bean.getCustomerName())
-                        .setText(R.id.tv_customer_address,bean.getCustomerAddress());
+                holder.setText(R.id.tv_order_price, "¥" + bean.getCharge())
+                        .setText(R.id.tv_shop_distance, (bean.getQsdistance()))
+                        .setText(R.id.tv_shop_name, bean.getShopName())
+                        .setText(R.id.tv_shop_address, bean.getShopAddress())
+                        .setText(R.id.tv_customer_distance, (bean.getScdistance()))
+                        .setText(R.id.tv_customer_name, bean.getCustomerName())
+                        .setText(R.id.tv_customer_address, bean.getCustomerAddress());
 
                 holder.getView(R.id.tv_order_receive).setOnClickListener(new MyOnClickListener() {
                     @Override
                     protected void onNoDoubleClick(View view) {
-
-
-
 
                     }
                 });
@@ -148,8 +147,8 @@ public class WaitListFragment extends BaseFragment  implements LoadMoreAdapter.O
 
     @Override
     protected void initData() {
-        popScreen =  SPUtils.getPrefString(mContext, Config.pop_screen,null);
-        popSort =  SPUtils.getPrefString(mContext, Config.pop_sort,null);
+        popScreen = SPUtils.getPrefString(mContext, Config.pop_screen, null);
+        popSort = SPUtils.getPrefString(mContext, Config.pop_sort, null);
         getData(false);
     }
 
@@ -163,48 +162,51 @@ public class WaitListFragment extends BaseFragment  implements LoadMoreAdapter.O
                 longitudeAndlatitude = event.longitudeAndlatitude;
             }
         });
-    }
-
-    private void getData(boolean isLoad) {
-        Map<String,String> map=new HashMap<String,String>();
-//        map.put("coord",longitudeAndlatitude);
-//        map.put("type",popScreen);
-//        map.put("status","0");
-//        map.put("userid", SPUtils.getPrefString(mContext, Config.user_id,null));
-//        map.put("orderby","0");
-//        map.put("sign", GetSign.getSign(map));
-
-        map.put("coord",longitudeAndlatitude);
-        map.put("type","0,1,2");
-        map.put("status","0");
-        map.put("userid", "21");
-        map.put("orderby","0");
-        map.put("sign", "admin123");
-
-        ApiRequest.orderList(map,new MyCallBack<List<OrderListObj>>(mContext, pcfl) {
+        RxBus.getInstance().getEvent(ResetEvent.class, new MySubscriber<ResetEvent>() {
             @Override
-            public void onSuccess(List<OrderListObj> list) {
-                if(isLoad){
-                    pageNum++;
-                    adapter.addList(list,true);
+            public void onMyNext(ResetEvent event) {
+                if (event.ResetEvent == 1) {
+                    relativeReset.setVisibility(View.VISIBLE);
                 }else{
-                    pageNum=2;
-                    adapter.setList(list,true);
+                    relativeReset.setVisibility(View.GONE);
                 }
             }
         });
 
     }
 
-    @OnClick({R.id.linear_shaixuan,R.id.tv_refresh_order})
+    private void getData(boolean isLoad) {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("coord", longitudeAndlatitude);
+        map.put("type", popScreen);
+        map.put("status", "0");
+        map.put("userid", SPUtils.getPrefString(mContext, Config.user_id, null));
+        map.put("orderby", "0");
+        map.put("sign", GetSign.getSign(map));
+        ApiRequest.orderList(map, new MyCallBack<List<OrderListObj>>(mContext, pcfl, pl_load) {
+            @Override
+            public void onSuccess(List<OrderListObj> list) {
+                if (isLoad) {
+                    RxBus.getInstance().post(new RefreshEvent(0,list.size()));
+                    pageNum++;
+                    adapter.addList(list, true);
+                } else {
+                    pageNum = 2;
+                    adapter.setList(list, true);
+                }
+            }
+        });
+    }
+
+    @OnClick({R.id.linear_shaixuan, R.id.tv_refresh_order})
     protected void onViewClick(View v) {
-    switch (v.getId()){
-        case R.id.linear_shaixuan:
-            showGuiGe();
-             break;
-        case R.id.tv_refresh_order:
-            break;
-     }
+        switch (v.getId()) {
+            case R.id.linear_shaixuan:
+                showGuiGe();
+                break;
+            case R.id.tv_refresh_order:
+                break;
+        }
     }
 
     private void showGuiGe() {
@@ -213,7 +215,7 @@ public class WaitListFragment extends BaseFragment  implements LoadMoreAdapter.O
         Window win = shareDialog.getWindow();
         win.setGravity(Gravity.CENTER);
         win.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        win.getDecorView().setPadding(0,0,0, PhoneUtils.getNavigationBarHeight(mContext));
+        win.getDecorView().setPadding(0, 0, 0, PhoneUtils.getNavigationBarHeight(mContext));
 
         win.setBackgroundDrawableResource(android.R.color.transparent);
         WindowManager.LayoutParams lp = win.getAttributes();
@@ -234,11 +236,11 @@ public class WaitListFragment extends BaseFragment  implements LoadMoreAdapter.O
         win.getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                Rect rect= new Rect();
+                Rect rect = new Rect();
                 win.getDecorView().getWindowVisibleDisplayFrame(rect);
                 int screenHeight = win.getDecorView().getRootView().getHeight();
-                int heightDifferent = screenHeight - rect.bottom- PhoneUtils.getNavigationBarHeight(mContext);
-                win.getDecorView().setPadding(0, 0, 0, heightDifferent+PhoneUtils.getNavigationBarHeight(mContext));
+                int heightDifferent = screenHeight - rect.bottom - PhoneUtils.getNavigationBarHeight(mContext);
+                win.getDecorView().setPadding(0, 0, 0, heightDifferent + PhoneUtils.getNavigationBarHeight(mContext));
                 nsv_goods_detail_guige.fullScroll(View.FOCUS_DOWN);
             }
         });
@@ -251,13 +253,11 @@ public class WaitListFragment extends BaseFragment  implements LoadMoreAdapter.O
         TextView tv_reset = guiGeView.findViewById(R.id.tv_reset); //重置
         TextView tv_commit = guiGeView.findViewById(R.id.tv_commit); //确定
 
-      //运单筛选
+        //运单筛选
         final LayoutInflater mInflater = LayoutInflater.from(getActivity());
-        fl_screen.setAdapter(new TagAdapter<String>(screen)
-        {
+        fl_screen.setAdapter(new TagAdapter<String>(screen) {
             @Override
-            public View getView(com.zhy.view.flowlayout.FlowLayout parent, int position, String s)
-            {
+            public View getView(FlowLayout parent, int position, String s) {
                 TextView tv = (TextView) mInflater.inflate(R.layout.flowlayout_tv,
                         fl_screen, false);
                 tv.setText(s);
@@ -267,32 +267,28 @@ public class WaitListFragment extends BaseFragment  implements LoadMoreAdapter.O
         });
         fl_screen.setMaxSelectCount(3);
 
-        if(popScreen == null){
-            fl_screen.getAdapter().setSelectedList(0,1,2);
-        }else{
+        if (popScreen == null) {
+            fl_screen.getAdapter().setSelectedList(0, 1, 2);
+        } else {
             String[] str = popScreen.split(",");
             int array[] = new int[str.length];
-            for(int i=0;i<str.length;i++) {
+            for (int i = 0; i < str.length; i++) {
                 array[i] = Integer.parseInt(str[i]);
             }
-                fl_screen.getAdapter().setSelectedList(array);
-            }
-
+            fl_screen.getAdapter().setSelectedList(array);
+        }
         fl_screen.setOnSelectListener(new TagFlowLayout.OnSelectListener() {
             @Override
-            public void onSelected(Set<Integer> selectPosSet)
-            {
+            public void onSelected(Set<Integer> selectPosSet) {
 //                popScreen = setToString(selectPosSet);
             }
         });
 
         //运单排序
         final LayoutInflater mInflaterSort = LayoutInflater.from(getActivity());
-        fl_sort.setAdapter(new TagAdapter<String>(sorting)
-        {
+        fl_sort.setAdapter(new TagAdapter<String>(sorting) {
             @Override
-            public View getView(com.zhy.view.flowlayout.FlowLayout parent, int position, String s)
-            {
+            public View getView(FlowLayout parent, int position, String s) {
                 TextView tv = (TextView) mInflaterSort.inflate(R.layout.flowlayout_tv,
                         fl_sort, false);
                 tv.setText(s);
@@ -301,17 +297,15 @@ public class WaitListFragment extends BaseFragment  implements LoadMoreAdapter.O
         });
         //设置最大选择个数
         fl_sort.setMaxSelectCount(1);
-        if(popSort == null){
+        if (popSort == null) {
             fl_sort.getAdapter().setSelectedList(0);
-        }else{
+        } else {
             fl_sort.getAdapter().setSelectedList(Integer.parseInt(popSort));
         }
 
-        fl_sort.setOnSelectListener(new TagFlowLayout.OnSelectListener()
-        {
+        fl_sort.setOnSelectListener(new TagFlowLayout.OnSelectListener() {
             @Override
-            public void onSelected(Set<Integer> selectPosSet)
-            {
+            public void onSelected(Set<Integer> selectPosSet) {
 //                popSort =  setToString(selectPosSet);
             }
         });
@@ -320,38 +314,38 @@ public class WaitListFragment extends BaseFragment  implements LoadMoreAdapter.O
             @Override
             public void onClick(View v) {
                 //存储筛选
-                SPUtils.setPrefString(mContext, Config.pop_screen,null);
+                SPUtils.setPrefString(mContext, Config.pop_screen, null);
                 //存储排序
-                SPUtils.setPrefString(mContext, Config.pop_sort,null);
+                SPUtils.setPrefString(mContext, Config.pop_sort, null);
                 fl_screen.getAdapter().notifyDataChanged();
                 fl_sort.getAdapter().notifyDataChanged();
 
             }
         });
-       //确定最终的选择
+        //确定最终的选择
         tv_commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //获取所有选择的运单筛选
-                popScreen =setToString(fl_screen.getSelectedList());
-                if(popScreen.length()<1){
+                popScreen = setToString(fl_screen.getSelectedList());
+                if (popScreen.length() < 1) {
                     showMsg("运单筛选不能为空");
-                    return ;
+                    return;
                 }
-                 //存储筛选
-                SPUtils.setPrefString(mContext, Config.pop_screen,popScreen);
+                //存储筛选
+                SPUtils.setPrefString(mContext, Config.pop_screen, popScreen);
                 //获取所有选择的运单排序
-                popSort =setToString(fl_sort.getSelectedList());
-                if(popSort.length()<1){
+                popSort = setToString(fl_sort.getSelectedList());
+                if (popSort.length() < 1) {
                     showMsg("运单排序不能为空");
-                    return ;
+                    return;
                 }
                 //存储排序
-                SPUtils.setPrefString(mContext, Config.pop_sort,popSort);
+                SPUtils.setPrefString(mContext, Config.pop_sort, popSort);
                 shareDialog.dismiss();
             }
         });
-       //点击背景关闭弹出框
+        //点击背景关闭弹出框
         ll_guige_bg.setOnClickListener(new MyOnClickListener() {
             @Override
             protected void onNoDoubleClick(View view) {
@@ -362,18 +356,18 @@ public class WaitListFragment extends BaseFragment  implements LoadMoreAdapter.O
         shareDialog.show();
     }
 
-    public  String setToString(Set<Integer> selectPosSet){
-        String s ="";
+    public String setToString(Set<Integer> selectPosSet) {
+        String s = "";
         for (Integer str : selectPosSet) {
             System.out.println(str);
             int i = str;
-            s+=i+",";
+            s += i + ",";
         }
-        if(s.length()<1){
+        if (s.length() < 1) {
             return "";
-        }else{
-            ToastUtils.showToast( getActivity(),"choose:" + s.substring(0,s.length() - 1)+"===="+s.length());
-            return s.substring(0,s.length() - 1);
+        } else {
+            ToastUtils.showToast(getActivity(), "choose:" + s.substring(0, s.length() - 1) + "====" + s.length());
+            return s.substring(0, s.length() - 1);
         }
     }
 
@@ -383,5 +377,17 @@ public class WaitListFragment extends BaseFragment  implements LoadMoreAdapter.O
     }
 
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder1 = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder1.unbind();
+    }
 }

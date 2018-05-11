@@ -2,8 +2,10 @@ package com.qifan.qishou.network;
 
 import com.qifan.qishou.base.ResponseObj;
 import com.qifan.qishou.network.response.LoginObj;
+import com.qifan.qishou.network.response.OrderListObj;
 import com.qifan.qishou.network.response.RegisterObj;
 
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -30,6 +32,6 @@ public interface IRequest {
 
     //获取订单列表
     @POST("api/Order/GetOrder")
-    Call<ResponseObj<LoginObj>> orderList(@QueryMap Map<String,String> map);
+    Call<ResponseObj<List<OrderListObj>>> orderList(@QueryMap Map<String,String> map);
 
 }

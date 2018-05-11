@@ -24,7 +24,7 @@ public class OrderListObj {
          */
 
         private int orderid;
-        private Object charge;
+        private String charge;
         private String shopName;
         private String shopPhone;
         private String shopAddress;
@@ -32,8 +32,8 @@ public class OrderListObj {
         private String customerPhone;
         private String customerAddress;
         private String remark;
-        private double qsdistance;
-        private Object scdistance;
+        private String qsdistance;
+        private String scdistance;
         private String customerLDH;
 
         public int getOrderid() {
@@ -44,13 +44,7 @@ public class OrderListObj {
             this.orderid = orderid;
         }
 
-        public Object getCharge() {
-            return charge;
-        }
 
-        public void setCharge(Object charge) {
-            this.charge = charge;
-        }
 
         public String getShopName() {
             return shopName;
@@ -108,22 +102,6 @@ public class OrderListObj {
             this.remark = remark;
         }
 
-        public double getQsdistance() {
-            return qsdistance;
-        }
-
-        public void setQsdistance(double qsdistance) {
-            this.qsdistance = qsdistance;
-        }
-
-        public Object getScdistance() {
-            return scdistance;
-        }
-
-        public void setScdistance(Object scdistance) {
-            this.scdistance = scdistance;
-        }
-
         public String getCustomerLDH() {
             return customerLDH;
         }
@@ -132,4 +110,27 @@ public class OrderListObj {
             this.customerLDH = customerLDH;
         }
 
+    public String getCharge() {
+        return charge;
+    }
+
+    public void setCharge(String charge) {
+        this.charge = charge;
+    }
+
+    public String getQsdistance() {
+        return qsdistance;
+    }
+
+    public void setQsdistance(String qsdistance) {
+        this.qsdistance = qsdistance;
+    }
+
+    public String getScdistance() {
+        return scdistance;
+    }
+
+    public void setScdistance(String scdistance) {
+        this.scdistance = scdistance;
+    }
 }

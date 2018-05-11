@@ -22,12 +22,18 @@ import android.widget.TextView;
 
 import com.github.androidtools.PhoneUtils;
 import com.github.androidtools.inter.MyOnClickListener;
+import com.github.baseclass.rx.MySubscriber;
+import com.github.baseclass.rx.RxBus;
 import com.github.baseclass.view.MyPopupwindow;
 import com.qifan.qishou.activity.LoginActivity;
 import com.qifan.qishou.activity.MyWalletActivity;
 import com.qifan.qishou.adapter.MyViewPagerAdapter;
 import com.qifan.qishou.base.BaseActivity;
+import com.qifan.qishou.event.LocationEvent;
+import com.qifan.qishou.event.RefreshEvent;
+import com.qifan.qishou.event.ResetEvent;
 import com.qifan.qishou.fragment.WaitListFragment;
+import com.qifan.qishou.fragment.WaitingGoodsFragment;
 import com.qifan.qishou.service.LocationServices;
 
 import butterknife.BindView;
@@ -110,11 +116,28 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         FragmentManager fm = getSupportFragmentManager();
         MyViewPagerAdapter pagerAdapter = new MyViewPagerAdapter(fm);
         pagerAdapter.addFragment(new WaitListFragment(), "待抢单");
-        pagerAdapter.addFragment(new WaitListFragment(), "待取货");
+        pagerAdapter.addFragment(new WaitingGoodsFragment(), "待取货");
         pagerAdapter.addFragment(new WaitListFragment(), "待送货");
         mainViewpager.setAdapter(pagerAdapter);
         mainViewpager.setOffscreenPageLimit(3);
+
     }
+
+    @Override
+    protected void initRxBus() {
+        super.initRxBus();
+
+        RxBus.getInstance().getEvent(RefreshEvent.class, new MySubscriber<RefreshEvent>() {
+            @Override
+            public void onMyNext(RefreshEvent event) {
+                if(event.Refresh == 0){
+                    mainTablayout.getTabAt(0).setText("待抢单("+event.orderSize+")");
+                }
+            }
+        });
+    }
+//
+
 
     @Override
     public void onBackPressed() {
@@ -209,11 +232,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     Intent startIntent = new Intent(MainActivity.this, LocationServices.class);
                     startService(startIntent);
                     showMsg("开始接单");
+                    //发送接单通知
+                    RxBus.getInstance().post(new ResetEvent(0));
                 }else{
                     tvStartOrRest.setText("未开工 v");
                     Intent stopIntent = new Intent(MainActivity.this, LocationServices.class);
                     stopService(stopIntent);
                     showMsg("停止接单");
+                   //发送休息通知
+                    RxBus.getInstance().post(new ResetEvent(1));
                 }
                 Pop.dismiss();
 //                showLoading();
