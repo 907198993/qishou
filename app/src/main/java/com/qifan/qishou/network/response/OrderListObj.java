@@ -5,8 +5,11 @@ package com.qifan.qishou.network.response;
  */
 
 public class OrderListObj {
+
+
+
         /**
-         * orderid : 4
+         * orderid : 1
          * charge : null
          * shopName : XX运动鞋店
          * shopPhone : 134333444
@@ -15,13 +18,13 @@ public class OrderListObj {
          * customerPhone : 13544451266
          * customerAddress : 详细地址HT.Model.ht_shipping_address
          * remark :
-         * qsdistance : null
-         * scdistance : 2.453
+         * qsdistance : 1.5181
+         * scdistance : null
          * customerLDH : 一栋3009
          */
 
         private int orderid;
-        private double charge;
+        private Object charge;
         private String shopName;
         private String shopPhone;
         private String shopAddress;
@@ -30,7 +33,7 @@ public class OrderListObj {
         private String customerAddress;
         private String remark;
         private double qsdistance;
-        private double scdistance;
+        private Object scdistance;
         private String customerLDH;
 
         public int getOrderid() {
@@ -41,23 +44,15 @@ public class OrderListObj {
             this.orderid = orderid;
         }
 
-    public double getCharge() {
-        return charge;
-    }
+        public Object getCharge() {
+            return charge;
+        }
 
-    public void setCharge(double charge) {
-        this.charge = charge;
-    }
+        public void setCharge(Object charge) {
+            this.charge = charge;
+        }
 
-    public double getQsdistance() {
-        return qsdistance;
-    }
-
-    public void setQsdistance(double qsdistance) {
-        this.qsdistance = qsdistance;
-    }
-
-    public String getShopName() {
+        public String getShopName() {
             return shopName;
         }
 
@@ -113,12 +108,19 @@ public class OrderListObj {
             this.remark = remark;
         }
 
+        public double getQsdistance() {
+            return qsdistance;
+        }
 
-        public double getScdistance() {
+        public void setQsdistance(double qsdistance) {
+            this.qsdistance = qsdistance;
+        }
+
+        public Object getScdistance() {
             return scdistance;
         }
 
-        public void setScdistance(double scdistance) {
+        public void setScdistance(Object scdistance) {
             this.scdistance = scdistance;
         }
 

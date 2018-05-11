@@ -1,5 +1,6 @@
 package com.qifan.qishou;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -10,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +28,7 @@ import com.qifan.qishou.activity.MyWalletActivity;
 import com.qifan.qishou.adapter.MyViewPagerAdapter;
 import com.qifan.qishou.base.BaseActivity;
 import com.qifan.qishou.fragment.WaitListFragment;
+import com.qifan.qishou.service.LocationServices;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -203,9 +206,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             protected void onNoDoubleClick(View view) {
                 if(index==0){//
                     tvStartOrRest.setText("接单中 v");
-
+                    Intent startIntent = new Intent(MainActivity.this, LocationServices.class);
+                    startService(startIntent);
+                    showMsg("开始接单");
                 }else{
                     tvStartOrRest.setText("未开工 v");
+                    Intent stopIntent = new Intent(MainActivity.this, LocationServices.class);
+                    stopService(stopIntent);
+                    showMsg("停止接单");
                 }
                 Pop.dismiss();
 //                showLoading();
@@ -213,7 +221,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         };
     }
-
-
-
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        Log.d("tag", "MainActivity.onDestroy()");
+        Intent stopIntent = new Intent(MainActivity.this, LocationServices.class);
+        stopService(stopIntent);
+        super.onDestroy();
+    }
 }

@@ -82,6 +82,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onSuccess(LoginObj obj) {
                 SPUtils.setPrefString(mContext, Config.user_name,getSStr(etLoginPhone));
+                SPUtils.setPrefString(mContext, Config.user_id,obj.getUserid());
                 STActivity(MainActivity.class);
                 finish();
             }

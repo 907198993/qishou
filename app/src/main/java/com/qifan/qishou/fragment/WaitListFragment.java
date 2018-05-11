@@ -23,36 +23,33 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.github.androidtools.PhoneUtils;
 import com.github.androidtools.SPUtils;
 import com.github.androidtools.ToastUtils;
 import com.github.androidtools.inter.MyOnClickListener;
 import com.github.baseclass.adapter.LoadMoreAdapter;
 import com.github.baseclass.adapter.LoadMoreViewHolder;
-import com.github.customview.FlowLayout;
+import com.github.baseclass.rx.MySubscriber;
+import com.github.baseclass.rx.RxBus;
 import com.github.customview.MyTextView;
 import com.qifan.qishou.Config;
-import com.qifan.qishou.GetSign;
 import com.qifan.qishou.R;
 import com.qifan.qishou.base.BaseFragment;
 import com.qifan.qishou.base.MyCallBack;
+import com.qifan.qishou.event.LocationEvent;
 import com.qifan.qishou.network.ApiRequest;
 import com.qifan.qishou.network.response.OrderListObj;
 import com.qifan.qishou.network.response.ScreeningBean;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
@@ -87,7 +84,7 @@ public class WaitListFragment extends BaseFragment  implements LoadMoreAdapter.O
     private String popScreen ;
     private String popSort;
 
-
+    public String longitudeAndlatitude ;//经纬度
     LoadMoreAdapter adapter;
 
     @Override
@@ -115,11 +112,12 @@ public class WaitListFragment extends BaseFragment  implements LoadMoreAdapter.O
         adapter=new LoadMoreAdapter<OrderListObj>(mContext,R.layout.item_order_list,pageSize) {
             @Override
             public void bindData(LoadMoreViewHolder holder, int position, OrderListObj bean) {
-                holder.setText(R.id.tv_order_price, Double.toString(bean.getCharge()))
-                        .setText(R.id.tv_shop_distance, Double.toString(bean.getQsdistance()))
+//                .setText(R.id.tv_order_price,(bean.getCharge()))
+//                .setText(R.id.tv_shop_distance, (bean.getQsdistance()))
+                holder
                         .setText(R.id.tv_shop_name,bean.getShopName())
                         .setText(R.id.tv_shop_address,bean.getShopAddress())
-                        .setText(R.id.tv_customer_distance,Double.toString(bean.getScdistance()))
+//                        .setText(R.id.tv_customer_distance,(bean.getScdistance()))
                         .setText(R.id.tv_customer_name,bean.getCustomerName())
                         .setText(R.id.tv_customer_address,bean.getCustomerAddress());
 
@@ -142,7 +140,7 @@ public class WaitListFragment extends BaseFragment  implements LoadMoreAdapter.O
         pcfl.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                getData(1,false);
+                getData(false);
             }
         });
 
@@ -152,19 +150,38 @@ public class WaitListFragment extends BaseFragment  implements LoadMoreAdapter.O
     protected void initData() {
         popScreen =  SPUtils.getPrefString(mContext, Config.pop_screen,null);
         popSort =  SPUtils.getPrefString(mContext, Config.pop_sort,null);
-        getData(1,false);
-
+        getData(false);
     }
 
-    private void getData(int page, boolean isLoad) {
+    @Override
+    protected void initRxBus() {
+        super.initRxBus();
+        RxBus.getInstance().getEvent(LocationEvent.class, new MySubscriber<LocationEvent>() {
+            @Override
+            public void onMyNext(LocationEvent event) {
+                showMsg(event.longitudeAndlatitude);
+                longitudeAndlatitude = event.longitudeAndlatitude;
+            }
+        });
+    }
+
+    private void getData(boolean isLoad) {
         Map<String,String> map=new HashMap<String,String>();
-//        map.put("coord",getUserId());
-//        map.put("type",page+"");
-//        map.put("status",);
+//        map.put("coord",longitudeAndlatitude);
+//        map.put("type",popScreen);
+//        map.put("status","0");
+//        map.put("userid", SPUtils.getPrefString(mContext, Config.user_id,null));
+//        map.put("orderby","0");
 //        map.put("sign", GetSign.getSign(map));
-//        map.put("userid", GetSign.getSign(map));
-//        map.put("orderby",);
-        ApiRequest.orderList(map, new MyCallBack<List<OrderListObj>>(mContext,pcfl,pl_load) {
+
+        map.put("coord",longitudeAndlatitude);
+        map.put("type","0,1,2");
+        map.put("status","0");
+        map.put("userid", "21");
+        map.put("orderby","0");
+        map.put("sign", "admin123");
+
+        ApiRequest.orderList(map,new MyCallBack<List<OrderListObj>>(mContext, pcfl) {
             @Override
             public void onSuccess(List<OrderListObj> list) {
                 if(isLoad){
