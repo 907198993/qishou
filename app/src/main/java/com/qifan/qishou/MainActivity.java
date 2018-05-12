@@ -34,6 +34,7 @@ import com.qifan.qishou.event.RefreshEvent;
 import com.qifan.qishou.event.ResetEvent;
 import com.qifan.qishou.fragment.WaitListFragment;
 import com.qifan.qishou.fragment.WaitingGoodsFragment;
+import com.qifan.qishou.fragment.WaitingSendGoodsFragment;
 import com.qifan.qishou.service.LocationServices;
 
 import butterknife.BindView;
@@ -117,7 +118,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         MyViewPagerAdapter pagerAdapter = new MyViewPagerAdapter(fm);
         pagerAdapter.addFragment(new WaitListFragment(), "待抢单");
         pagerAdapter.addFragment(new WaitingGoodsFragment(), "待取货");
-        pagerAdapter.addFragment(new WaitListFragment(), "待送货");
+        pagerAdapter.addFragment(new WaitingSendGoodsFragment(), "待送货");
         mainViewpager.setAdapter(pagerAdapter);
         mainViewpager.setOffscreenPageLimit(3);
 
@@ -126,12 +127,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void initRxBus() {
         super.initRxBus();
-
+         //更新tab栏的订单数量
         RxBus.getInstance().getEvent(RefreshEvent.class, new MySubscriber<RefreshEvent>() {
             @Override
             public void onMyNext(RefreshEvent event) {
                 if(event.Refresh == 0){
                     mainTablayout.getTabAt(0).setText("待抢单("+event.orderSize+")");
+                }else if(event.Refresh == 1){
+                    mainTablayout.getTabAt(1).setText("待取货("+event.orderSize+")");
+                }else{
+                    mainTablayout.getTabAt(2).setText("待送货("+event.orderSize+")");
                 }
             }
         });

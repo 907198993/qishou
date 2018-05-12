@@ -97,6 +97,7 @@ public class WaitListFragment extends BaseFragment implements LoadMoreAdapter.On
 
     @Override
     protected void initView() {
+        showProgress();
         //初始化筛选
         for (int i = 0; i < screen.length; i++) {
             typeLisOneBean.setType_id(i + 1);
@@ -186,8 +187,9 @@ public class WaitListFragment extends BaseFragment implements LoadMoreAdapter.On
         ApiRequest.orderList(map, new MyCallBack<List<OrderListObj>>(mContext, pcfl, pl_load) {
             @Override
             public void onSuccess(List<OrderListObj> list) {
+                RxBus.getInstance().post(new RefreshEvent(0,list.size()));
                 if (isLoad) {
-                    RxBus.getInstance().post(new RefreshEvent(0,list.size()));
+
                     pageNum++;
                     adapter.addList(list, true);
                 } else {
@@ -201,16 +203,17 @@ public class WaitListFragment extends BaseFragment implements LoadMoreAdapter.On
     @OnClick({R.id.linear_shaixuan, R.id.tv_refresh_order})
     protected void onViewClick(View v) {
         switch (v.getId()) {
-            case R.id.linear_shaixuan:
+            case R.id.linear_shaixuan:  //筛选按钮
                 showGuiGe();
                 break;
-            case R.id.tv_refresh_order:
+            case R.id.tv_refresh_order:  //刷新按钮
+                showProgress();
+                getData(false);
                 break;
         }
     }
 
     private void showGuiGe() {
-
         shareDialog = new Dialog(mContext);//,R.style.dialogAnimation
         Window win = shareDialog.getWindow();
         win.setGravity(Gravity.CENTER);

@@ -1,9 +1,7 @@
 package com.qifan.qishou.fragment;
 
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -32,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.Unbinder;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
@@ -40,8 +37,8 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 /**
  * Created by Administrator on 2018/5/11 0011.
  */
-//待取货
-public class WaitingGoodsFragment extends BaseFragment implements LoadMoreAdapter.OnLoadMoreListener {
+//待送货
+public class WaitingSendGoodsFragment extends BaseFragment implements LoadMoreAdapter.OnLoadMoreListener {
 
     @BindView(R.id.rv_order_class)
     RecyclerView rvOrderClass;
@@ -136,14 +133,14 @@ public class WaitingGoodsFragment extends BaseFragment implements LoadMoreAdapte
         Map<String, String> map = new HashMap<String, String>();
         map.put("coord", longitudeAndlatitude);
         map.put("type", "3");
-        map.put("status", "1");
+        map.put("status", "2");
         map.put("userid", SPUtils.getPrefString(mContext, Config.user_id, null));
         map.put("orderby", "3");
         map.put("sign", GetSign.getSign(map));
         ApiRequest.orderList(map, new MyCallBack<List<OrderListObj>>(mContext, pcfl, pl_load) {
             @Override
             public void onSuccess(List<OrderListObj> list) {
-                RxBus.getInstance().post(new RefreshEvent(1,list.size()));
+                RxBus.getInstance().post(new RefreshEvent(2,list.size()));
                 if (isLoad) {
                     pageNum++;
                     adapter.addList(list, true);

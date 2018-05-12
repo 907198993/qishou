@@ -28,6 +28,10 @@
         android:orientation="vertical"
         android:gravity="center_vertical"
         >
+        <com.qifan.qishou.view.ProgressLayout
+            android:id="@id/pl_load"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <in.srain.cube.views.ptr.PtrClassicFrameLayout
             android:id="@id/pcfl_refresh"
             android:layout_width="match_parent"
@@ -43,7 +47,7 @@
                 >
             </android.support.v7.widget.RecyclerView>
         </in.srain.cube.views.ptr.PtrClassicFrameLayout>
-
+        </com.qifan.qishou.view.ProgressLayout>
             <com.github.customview.MyLinearLayout
                 android:id="@+id/linear_bottom"
                 android:layout_width="match_parent"
@@ -85,11 +89,13 @@
                     android:text="刷新订单"
                     android:layout_weight="6"
                     app:my_tv_solid="@color/white"
+                    app:my_tv_press="@color/gray_66"
                     android:textColor="@color/black"
                     app:my_tv_border_color="@color/black"
                     app:my_tv_all_line="true"
                     app:my_tv_corner_radius="50dp"
                     android:layout_margin="8dp"
+
                     android:gravity="center"
                     android:ems="5"
                     />
