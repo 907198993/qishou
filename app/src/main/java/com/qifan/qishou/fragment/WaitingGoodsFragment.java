@@ -25,6 +25,7 @@ import com.qifan.qishou.event.LocationEvent;
 import com.qifan.qishou.event.RefreshEvent;
 import com.qifan.qishou.event.ResetEvent;
 import com.qifan.qishou.network.ApiRequest;
+import com.qifan.qishou.network.response.GradObj;
 import com.qifan.qishou.network.response.OrderListObj;
 
 import java.util.HashMap;
@@ -58,7 +59,9 @@ public class WaitingGoodsFragment extends BaseFragment implements LoadMoreAdapte
 
     public String longitudeAndlatitude;//经纬度
     LoadMoreAdapter adapter;
+    private String userStatus;//骑手状态
 
+    private int size;
     @Override
     protected int getContentView() {
         return R.layout.frgment_waiting_list;
@@ -66,6 +69,7 @@ public class WaitingGoodsFragment extends BaseFragment implements LoadMoreAdapte
 
     @Override
     protected void initView() {
+        relativeReset.setVisibility(View.GONE);//开启接单，后隐藏休息界面
         linearBottom.setVisibility(View.GONE); //隐藏底部栏
         adapter = new LoadMoreAdapter<OrderListObj>(mContext, R.layout.item_order_list, pageSize) {
             @Override
@@ -76,12 +80,27 @@ public class WaitingGoodsFragment extends BaseFragment implements LoadMoreAdapte
                         .setText(R.id.tv_shop_address, bean.getShopAddress())
                         .setText(R.id.tv_customer_distance, (bean.getScdistance()))
                         .setText(R.id.tv_customer_name, bean.getCustomerName())
-                        .setText(R.id.tv_customer_address, bean.getCustomerAddress());
-
+                        .setText(R.id.tv_customer_address, bean.getCustomerAddress())
+                        .setText(R.id.tv_order_receive,"上报到店");
                 holder.getView(R.id.tv_order_receive).setOnClickListener(new MyOnClickListener() {
                     @Override
                     protected void onNoDoubleClick(View view) {
-
+                        Map<String, String> map = new HashMap<String, String>();
+                        map.put("orderid", bean.getOrderid());
+                        map.put("userid", SPUtils.getPrefString(mContext, Config.user_id, null));
+                        map.put("sign", GetSign.getSign(map));
+                        ApiRequest.GrabOrderStep2(map, new MyCallBack<GradObj>(mContext, pcfl, pl_load) {
+                            @Override
+                            public void onSuccess(GradObj gradObj) {
+                                if(gradObj.getResult()==1){
+                                    showToastS("取货成功");
+                                    RxBus.getInstance().post(new RefreshEvent(0,size-1));//抢单成功后个数减一
+                                    adapter.notifyItemRemoved(position);
+                                }else{
+                                    showToastS("取货失败");
+                                }
+                            }
+                        });
                     }
                 });
             }
@@ -101,7 +120,10 @@ public class WaitingGoodsFragment extends BaseFragment implements LoadMoreAdapte
 
     @Override
     protected void initData() {
+        userStatus = SPUtils.getPrefString(mContext, Config.user_status,"0");
+
         getData(false);
+
     }
 
     @Override
@@ -123,9 +145,9 @@ public class WaitingGoodsFragment extends BaseFragment implements LoadMoreAdapte
             @Override
             public void onMyNext(ResetEvent event) {
                 if (event.ResetEvent == 1) {
-                    relativeReset.setVisibility(View.VISIBLE);
-                } else {
-                    relativeReset.setVisibility(View.GONE);
+                    getData(false);
+                }else{
+                    getData(false);
                 }
             }
         });
@@ -133,6 +155,11 @@ public class WaitingGoodsFragment extends BaseFragment implements LoadMoreAdapte
     }
 
     private void getData(boolean isLoad) {
+//        if(userStatus.equals("0")){
+//            relativeReset.setVisibility(View.VISIBLE); //如果休息状态，则不去获取订单数据，只显示休息中的文字
+//            return ;
+//        }
+
         Map<String, String> map = new HashMap<String, String>();
         map.put("coord", longitudeAndlatitude);
         map.put("type", "3");
@@ -143,6 +170,7 @@ public class WaitingGoodsFragment extends BaseFragment implements LoadMoreAdapte
         ApiRequest.orderList(map, new MyCallBack<List<OrderListObj>>(mContext, pcfl, pl_load) {
             @Override
             public void onSuccess(List<OrderListObj> list) {
+                size = list.size(); //Tab 显示个数
                 RxBus.getInstance().post(new RefreshEvent(1,list.size()));
                 if (isLoad) {
                     pageNum++;

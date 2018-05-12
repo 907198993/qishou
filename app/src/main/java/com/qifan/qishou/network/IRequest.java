@@ -1,9 +1,12 @@
 package com.qifan.qishou.network;
 
 import com.qifan.qishou.base.ResponseObj;
+import com.qifan.qishou.network.response.BillObj;
+import com.qifan.qishou.network.response.GradObj;
 import com.qifan.qishou.network.response.LoginObj;
 import com.qifan.qishou.network.response.OrderListObj;
 import com.qifan.qishou.network.response.RegisterObj;
+import com.qifan.qishou.network.response.WalletObj;
 
 import java.util.List;
 import java.util.Map;
@@ -33,5 +36,29 @@ public interface IRequest {
     //获取订单列表
     @POST("api/Order/GetOrder")
     Call<ResponseObj<List<OrderListObj>>> orderList(@QueryMap Map<String,String> map);
+
+    //抢单
+    @POST("api/Order/GrabOrder")
+    Call<ResponseObj<GradObj>> GrabOrderStep1(@QueryMap Map<String,String> map);
+
+    //上报到店
+    @POST("api/Order/takegoods")
+    Call<ResponseObj<GradObj>> GrabOrderStep2(@QueryMap Map<String,String> map);
+
+    //送达
+    @POST("api/Order/completeOrder")
+    Call<ResponseObj<GradObj>> GrabOrderStep3(@QueryMap Map<String,String> map);
+
+    //钱包
+    @POST("api/Account/GetMyWallet")
+    Call<ResponseObj<WalletObj>> userWallet(@QueryMap Map<String,String> map);
+
+    //账单列表
+    @POST("api/Account/GetBillList")
+    Call<ResponseObj<List<BillObj>>> userBillList(@QueryMap Map<String,String> map);
+
+
+
+
 
 }

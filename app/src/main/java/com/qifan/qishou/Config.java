@@ -37,6 +37,7 @@ wx23ef688729e8e8ba*/
     public static final Object KEY = "D98TZQWpTVlb1nqfkfO615U5ZEignoqW";
     //用户id
     public static final String user_id="user_id";
+    public static final String user_status="user_status";//用户状态
     public static final String user_switch="user_switch";
     public static final String user_name="user_name";
     public static final String pop_screen="pop_screen";

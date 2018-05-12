@@ -23,6 +23,7 @@ import com.qifan.qishou.event.LocationEvent;
 import com.qifan.qishou.event.RefreshEvent;
 import com.qifan.qishou.event.ResetEvent;
 import com.qifan.qishou.network.ApiRequest;
+import com.qifan.qishou.network.response.GradObj;
 import com.qifan.qishou.network.response.OrderListObj;
 
 import java.util.HashMap;
@@ -55,7 +56,8 @@ public class WaitingSendGoodsFragment extends BaseFragment implements LoadMoreAd
 
     public String longitudeAndlatitude;//经纬度
     LoadMoreAdapter adapter;
-
+    private String userStatus;//骑手状态
+    private int size;
     @Override
     protected int getContentView() {
         return R.layout.frgment_waiting_list;
@@ -63,6 +65,7 @@ public class WaitingSendGoodsFragment extends BaseFragment implements LoadMoreAd
 
     @Override
     protected void initView() {
+        relativeReset.setVisibility(View.GONE);// 后隐藏休息界面
         linearBottom.setVisibility(View.GONE); //隐藏底部栏
         adapter = new LoadMoreAdapter<OrderListObj>(mContext, R.layout.item_order_list, pageSize) {
             @Override
@@ -73,12 +76,27 @@ public class WaitingSendGoodsFragment extends BaseFragment implements LoadMoreAd
                         .setText(R.id.tv_shop_address, bean.getShopAddress())
                         .setText(R.id.tv_customer_distance, (bean.getScdistance()))
                         .setText(R.id.tv_customer_name, bean.getCustomerName())
-                        .setText(R.id.tv_customer_address, bean.getCustomerAddress());
-
+                        .setText(R.id.tv_customer_address, bean.getCustomerAddress())
+                        .setText(R.id.tv_order_receive,"确认送达");
                 holder.getView(R.id.tv_order_receive).setOnClickListener(new MyOnClickListener() {
                     @Override
                     protected void onNoDoubleClick(View view) {
-
+                        Map<String, String> map = new HashMap<String, String>();
+                        map.put("orderid", bean.getOrderid());
+                        map.put("userid", SPUtils.getPrefString(mContext, Config.user_id, null));
+                        map.put("sign", GetSign.getSign(map));
+                        ApiRequest.GrabOrderStep3(map, new MyCallBack<GradObj>(mContext, pcfl, pl_load) {
+                            @Override
+                            public void onSuccess(GradObj gradObj) {
+                                if(gradObj.getResult()==1){
+                                    showToastS("送达成功");
+                                    RxBus.getInstance().post(new RefreshEvent(0,size-1));//抢单成功后个数减一
+                                    adapter.notifyItemRemoved(position);
+                                }else{
+                                    showToastS("送达失败");
+                                }
+                            }
+                        });
                     }
                 });
             }
@@ -98,7 +116,9 @@ public class WaitingSendGoodsFragment extends BaseFragment implements LoadMoreAd
 
     @Override
     protected void initData() {
+        userStatus = SPUtils.getPrefString(mContext, Config.user_status,"0");
         getData(false);
+
     }
 
     @Override
@@ -112,17 +132,16 @@ public class WaitingSendGoodsFragment extends BaseFragment implements LoadMoreAd
         RxBus.getInstance().getEvent(LocationEvent.class, new MySubscriber<LocationEvent>() {
             @Override
             public void onMyNext(LocationEvent event) {
-                showMsg(event.longitudeAndlatitude);
                 longitudeAndlatitude = event.longitudeAndlatitude;
+
             }
         });
         RxBus.getInstance().getEvent(ResetEvent.class, new MySubscriber<ResetEvent>() {
             @Override
             public void onMyNext(ResetEvent event) {
                 if (event.ResetEvent == 1) {
-                    relativeReset.setVisibility(View.VISIBLE);
-                } else {
-                    relativeReset.setVisibility(View.GONE);
+                    getData(false);
+                }else{
                 }
             }
         });
@@ -130,6 +149,12 @@ public class WaitingSendGoodsFragment extends BaseFragment implements LoadMoreAd
     }
 
     private void getData(boolean isLoad) {
+
+//        if(userStatus.equals("0")){
+//            relativeReset.setVisibility(View.VISIBLE); //如果休息状态，则不去获取订单数据，只显示休息中的文字
+//            return ;
+//        }
+
         Map<String, String> map = new HashMap<String, String>();
         map.put("coord", longitudeAndlatitude);
         map.put("type", "3");
@@ -140,6 +165,7 @@ public class WaitingSendGoodsFragment extends BaseFragment implements LoadMoreAd
         ApiRequest.orderList(map, new MyCallBack<List<OrderListObj>>(mContext, pcfl, pl_load) {
             @Override
             public void onSuccess(List<OrderListObj> list) {
+                size = list.size();
                 RxBus.getInstance().post(new RefreshEvent(2,list.size()));
                 if (isLoad) {
                     pageNum++;

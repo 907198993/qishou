@@ -83,6 +83,7 @@ public class LoginActivity extends BaseActivity {
             public void onSuccess(LoginObj obj) {
                 SPUtils.setPrefString(mContext, Config.user_name,getSStr(etLoginPhone));
                 SPUtils.setPrefString(mContext, Config.user_id,obj.getUserid());
+                SPUtils.setPrefString(mContext, Config.user_status,"0");//0 代表休息状态
                 STActivity(MainActivity.class);
                 finish();
             }

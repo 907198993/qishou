@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.androidtools.PhoneUtils;
+import com.github.androidtools.SPUtils;
 import com.github.androidtools.inter.MyOnClickListener;
 import com.github.baseclass.rx.MySubscriber;
 import com.github.baseclass.rx.RxBus;
@@ -56,6 +57,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @BindView(R.id.tv_start_or_rest)
     TextView tvStartOrRest;
     private long mExitTime;
+    private String userStatus;
     @Override
     protected int getContentView() {
         return R.layout.activity_main;
@@ -66,6 +68,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         navView.setItemIconTintList(null);
+        userStatus = SPUtils.getPrefString(mContext, Config.user_status,"0");
+        if(userStatus.equals("0")){
+            tvStartOrRest.setText("未开工 v");
+            RxBus.getInstance().post(new ResetEvent(0));
+        }else{
+            tvStartOrRest.setText("接单中 v");
+            RxBus.getInstance().post(new ResetEvent(1));
+        }
     }
 
     @Override
@@ -109,11 +119,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * 初始化话界面和数据
      */
     private void initUiAndData() {
-
         if (mainTablayout != null) {
             mainTablayout.setupWithViewPager(mainViewpager);
         }
-
         FragmentManager fm = getSupportFragmentManager();
         MyViewPagerAdapter pagerAdapter = new MyViewPagerAdapter(fm);
         pagerAdapter.addFragment(new WaitListFragment(), "待抢单");
@@ -127,7 +135,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void initRxBus() {
         super.initRxBus();
-         //更新tab栏的订单数量
+         // 更新tab栏的订单数量
         RxBus.getInstance().getEvent(RefreshEvent.class, new MySubscriber<RefreshEvent>() {
             @Override
             public void onMyNext(RefreshEvent event) {
@@ -238,18 +246,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     startService(startIntent);
                     showMsg("开始接单");
                     //发送接单通知
-                    RxBus.getInstance().post(new ResetEvent(0));
+                    RxBus.getInstance().post(new ResetEvent(1));
+                    SPUtils.setPrefString(mContext, Config.user_status,"1");//1 可接单状态
                 }else{
                     tvStartOrRest.setText("未开工 v");
                     Intent stopIntent = new Intent(MainActivity.this, LocationServices.class);
                     stopService(stopIntent);
                     showMsg("停止接单");
                    //发送休息通知
-                    RxBus.getInstance().post(new ResetEvent(1));
+                    RxBus.getInstance().post(new ResetEvent(0));
+                    SPUtils.setPrefString(mContext, Config.user_status,"0");//0 代表休息状态
                 }
                 Pop.dismiss();
 //                showLoading();
-
             }
         };
     }
@@ -257,8 +266,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     protected void onDestroy() {
         // TODO Auto-generated method stub
         Log.d("tag", "MainActivity.onDestroy()");
-        Intent stopIntent = new Intent(MainActivity.this, LocationServices.class);
-        stopService(stopIntent);
+//        Intent stopIntent = new Intent(MainActivity.this, LocationServices.class);
+//        stopService(stopIntent);
+
+
         super.onDestroy();
     }
 }

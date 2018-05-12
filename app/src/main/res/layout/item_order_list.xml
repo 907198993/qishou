@@ -152,11 +152,11 @@
             </LinearLayout>
             <com.github.customview.MyTextView
                 android:id="@+id/tv_order_receive"
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="80dp"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:text="抢单"
                 android:textColor="@color/white"
-                android:layout_margin="6dp"
                 app:my_tv_solid="@color/main_background"
                 app:my_tv_press="@color/button_press"
                 android:layout_alignParentBottom="true"

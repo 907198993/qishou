@@ -46,4 +46,44 @@ public class ApiRequest extends BaseApiRequest {
         getGeneralClient(IRequest.class).orderList(map).enqueue(callBack);
     }
 
+    public static void GrabOrderStep1(Map map, MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) {
+            callBack.onFailure(null, new NoNetworkException(Config.noNetWork));
+            return;
+        }
+        getGeneralClient(IRequest.class).GrabOrderStep1(map).enqueue(callBack);
+    }
+
+    public static void GrabOrderStep2(Map map, MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) {
+            callBack.onFailure(null, new NoNetworkException(Config.noNetWork));
+            return;
+        }
+        getGeneralClient(IRequest.class).GrabOrderStep2(map).enqueue(callBack);
+    }
+
+    public static void GrabOrderStep3(Map map, MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) {
+            callBack.onFailure(null, new NoNetworkException(Config.noNetWork));
+            return;
+        }
+        getGeneralClient(IRequest.class).GrabOrderStep3(map).enqueue(callBack);
+    }
+
+    public static void userWallet(Map map, MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) {
+            callBack.onFailure(null, new NoNetworkException(Config.noNetWork));
+            return;
+        }
+        getGeneralClient(IRequest.class).userWallet(map).enqueue(callBack);
+    }
+
+    public static void userBillList(Map map, MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) {
+            callBack.onFailure(null, new NoNetworkException(Config.noNetWork));
+            return;
+        }
+        getGeneralClient(IRequest.class).userBillList(map).enqueue(callBack);
+    }
+
 }

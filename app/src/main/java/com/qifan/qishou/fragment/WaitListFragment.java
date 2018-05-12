@@ -36,6 +36,7 @@ import com.qifan.qishou.event.LocationEvent;
 import com.qifan.qishou.event.RefreshEvent;
 import com.qifan.qishou.event.ResetEvent;
 import com.qifan.qishou.network.ApiRequest;
+import com.qifan.qishou.network.response.GradObj;
 import com.qifan.qishou.network.response.OrderListObj;
 import com.qifan.qishou.network.response.ScreeningBean;
 import com.zhy.view.flowlayout.FlowLayout;
@@ -89,7 +90,8 @@ public class WaitListFragment extends BaseFragment implements LoadMoreAdapter.On
 
     public String longitudeAndlatitude;//经纬度
     LoadMoreAdapter adapter;
-
+    private String userStatus;//骑手状态
+    private int size;
     @Override
     protected int getContentView() {
         return R.layout.frgment_waiting_list;
@@ -97,7 +99,6 @@ public class WaitListFragment extends BaseFragment implements LoadMoreAdapter.On
 
     @Override
     protected void initView() {
-        showProgress();
         //初始化筛选
         for (int i = 0; i < screen.length; i++) {
             typeLisOneBean.setType_id(i + 1);
@@ -122,12 +123,29 @@ public class WaitListFragment extends BaseFragment implements LoadMoreAdapter.On
                         .setText(R.id.tv_shop_address, bean.getShopAddress())
                         .setText(R.id.tv_customer_distance, (bean.getScdistance()))
                         .setText(R.id.tv_customer_name, bean.getCustomerName())
-                        .setText(R.id.tv_customer_address, bean.getCustomerAddress());
-
+                        .setText(R.id.tv_customer_address, bean.getCustomerAddress())
+                        .setText(R.id.tv_order_receive, "抢单");
                 holder.getView(R.id.tv_order_receive).setOnClickListener(new MyOnClickListener() {
                     @Override
                     protected void onNoDoubleClick(View view) {
+                        Map<String, String> map = new HashMap<String, String>();
+                        map.put("orderid", bean.getOrderid());
+                        map.put("userid", SPUtils.getPrefString(mContext, Config.user_id, null));
+                        map.put("sign", GetSign.getSign(map));
+                        ApiRequest.GrabOrderStep1(map, new MyCallBack<GradObj>(mContext, pcfl, pl_load) {
+                            @Override
+                            public void onSuccess(GradObj gradObj) {
+                                if(gradObj.getResult()==1){
+                                    showToastS("抢单成功");
+                                    RxBus.getInstance().post(new RefreshEvent(0,size-1));//抢单成功后个数减一
+                                    adapter.notifyItemRemoved(position);
 
+                                }else{
+                                    showToastS("抢单失败");
+                                }
+
+                            }
+                        });
                     }
                 });
             }
@@ -148,8 +166,10 @@ public class WaitListFragment extends BaseFragment implements LoadMoreAdapter.On
 
     @Override
     protected void initData() {
-        popScreen = SPUtils.getPrefString(mContext, Config.pop_screen, null);
-        popSort = SPUtils.getPrefString(mContext, Config.pop_sort, null);
+        popScreen = SPUtils.getPrefString(mContext, Config.pop_screen, "0,1,2");
+        popSort = SPUtils.getPrefString(mContext, Config.pop_sort, "0");
+        userStatus = SPUtils.getPrefString(mContext, Config.user_status,"0");
+
         getData(false);
     }
 
@@ -163,13 +183,15 @@ public class WaitListFragment extends BaseFragment implements LoadMoreAdapter.On
                 longitudeAndlatitude = event.longitudeAndlatitude;
             }
         });
+
         RxBus.getInstance().getEvent(ResetEvent.class, new MySubscriber<ResetEvent>() {
             @Override
             public void onMyNext(ResetEvent event) {
                 if (event.ResetEvent == 1) {
-                    relativeReset.setVisibility(View.VISIBLE);
+                    relativeReset.setVisibility(View.GONE);//开启接单，后隐藏休息界面
                 }else{
-                    relativeReset.setVisibility(View.GONE);
+                    relativeReset.setVisibility(View.VISIBLE);
+                    getData(false);
                 }
             }
         });
@@ -177,6 +199,7 @@ public class WaitListFragment extends BaseFragment implements LoadMoreAdapter.On
     }
 
     private void getData(boolean isLoad) {
+        showProgress();
         Map<String, String> map = new HashMap<String, String>();
         map.put("coord", longitudeAndlatitude);
         map.put("type", popScreen);
@@ -188,8 +211,8 @@ public class WaitListFragment extends BaseFragment implements LoadMoreAdapter.On
             @Override
             public void onSuccess(List<OrderListObj> list) {
                 RxBus.getInstance().post(new RefreshEvent(0,list.size()));
+                size = list.size();
                 if (isLoad) {
-
                     pageNum++;
                     adapter.addList(list, true);
                 } else {
@@ -379,18 +402,4 @@ public class WaitListFragment extends BaseFragment implements LoadMoreAdapter.On
 
     }
 
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder1 = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder1.unbind();
-    }
 }

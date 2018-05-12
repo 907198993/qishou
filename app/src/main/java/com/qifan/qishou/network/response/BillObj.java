@@ -1,14 +1,13 @@
 package com.qifan.qishou.network.response;
 
 /**
- * Created by Administrator on 2018/5/10 0010.
+ * Created by Administrator on 2018/5/12 0012.
  */
 
-public class OrderListObj {
-
-
+public class BillObj {
 
         /**
+         * staus : 已被接单
          * orderid : 1
          * charge : null
          * shopName : XX运动鞋店
@@ -18,11 +17,12 @@ public class OrderListObj {
          * customerPhone : 13544451266
          * customerAddress : 详细地址HT.Model.ht_shipping_address
          * remark :
-         * qsdistance : 1.5181
          * scdistance : null
          * customerLDH : 一栋3009
+         * arriveDate : null
          */
 
+        private String staus;
         private String orderid;
         private String charge;
         private String shopName;
@@ -32,19 +32,20 @@ public class OrderListObj {
         private String customerPhone;
         private String customerAddress;
         private String remark;
-        private String qsdistance;
         private String scdistance;
         private String customerLDH;
+        private String arriveDate;
 
-    public String getOrderid() {
-        return orderid;
-    }
+        public String getStaus() {
+            return staus;
+        }
 
-    public void setOrderid(String orderid) {
-        this.orderid = orderid;
-    }
+        public void setStaus(String staus) {
+            this.staus = staus;
+        }
 
-    public String getShopName() {
+
+        public String getShopName() {
             return shopName;
         }
 
@@ -100,6 +101,8 @@ public class OrderListObj {
             this.remark = remark;
         }
 
+
+
         public String getCustomerLDH() {
             return customerLDH;
         }
@@ -107,6 +110,14 @@ public class OrderListObj {
         public void setCustomerLDH(String customerLDH) {
             this.customerLDH = customerLDH;
         }
+
+    public String getOrderid() {
+        return orderid;
+    }
+
+    public void setOrderid(String orderid) {
+        this.orderid = orderid;
+    }
 
     public String getCharge() {
         return charge;
@@ -116,19 +127,19 @@ public class OrderListObj {
         this.charge = charge;
     }
 
-    public String getQsdistance() {
-        return qsdistance;
-    }
-
-    public void setQsdistance(String qsdistance) {
-        this.qsdistance = qsdistance;
-    }
-
     public String getScdistance() {
         return scdistance;
     }
 
     public void setScdistance(String scdistance) {
         this.scdistance = scdistance;
+    }
+
+    public String getArriveDate() {
+        return arriveDate;
+    }
+
+    public void setArriveDate(String arriveDate) {
+        this.arriveDate = arriveDate;
     }
 }

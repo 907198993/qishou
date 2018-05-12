@@ -15,6 +15,7 @@ import com.qifan.qishou.Config;
 import com.qifan.qishou.MainActivity;
 import com.qifan.qishou.R;
 import com.qifan.qishou.base.BaseActivity;
+import com.qifan.qishou.service.LocationServices;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -58,6 +59,8 @@ public class AdverActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        Intent startIntent = new Intent(AdverActivity.this, LocationServices.class);
+        startService(startIntent);
         imgPath = SPUtils.getPrefString(this, Config.imgPath, null);
         userName =  SPUtils.getPrefString(this, Config.user_name, null);
         if(!TextUtils.isEmpty(imgPath)){
