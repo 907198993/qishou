@@ -10,7 +10,9 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.model.LatLng;
+import com.github.androidtools.SPUtils;
 import com.github.baseclass.rx.RxBus;
+import com.qifan.qishou.Config;
 import com.qifan.qishou.event.LocationEvent;
 
 import java.util.Timer;
@@ -35,7 +37,8 @@ public class LocationServices extends Service {
     private Timer mTimer = null;
     private TimerTask mTimerTask = null;
     private boolean isStop = false;
-
+    private String  position;
+    private String newPosition;
     @Override
     public void onCreate() {
         // TODO Auto-generated method stub
@@ -152,7 +155,7 @@ public class LocationServices extends Service {
      * @author User
      *
      */
-    public class MyLocationListener implements BDLocationListener {
+    public  class MyLocationListener implements BDLocationListener {
 
         @Override
         public void onReceiveLocation(BDLocation location) {
@@ -199,7 +202,8 @@ public class LocationServices extends Service {
             Log.d("tag", "strLocationProvince="+strLocationProvince);
             Log.d("tag", "strLocationCity="+strLocationCity);
             Log.d("tag", "strLocationDistrict="+strLocationDistrict);
-
+            position = lng+","+lat;
+            SPUtils.setPrefString(getApplicationContext(), Config.position,position);
             RxBus.getInstance().post(new LocationEvent(lng+","+lat));
 
             // 到此定位成功，没有必要反复定位

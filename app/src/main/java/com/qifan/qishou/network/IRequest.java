@@ -7,6 +7,7 @@ import com.qifan.qishou.network.response.LoginObj;
 import com.qifan.qishou.network.response.OrderListObj;
 import com.qifan.qishou.network.response.RegisterObj;
 import com.qifan.qishou.network.response.WalletObj;
+import com.qifan.qishou.network.response.WithdrawalsObj;
 
 import java.util.List;
 import java.util.Map;
@@ -57,6 +58,13 @@ public interface IRequest {
     @POST("api/Account/GetBillList")
     Call<ResponseObj<List<BillObj>>> userBillList(@QueryMap Map<String,String> map);
 
+    //获取提现
+    @POST("api/Account/Gettixian")
+    Call<ResponseObj<WithdrawalsObj>> Gettixian(@QueryMap Map<String,String> map);
+
+    //账单列表
+    @POST("api/Account/tixian")
+    Call<ResponseObj<GradObj>> Withdrawals(@QueryMap Map<String,String> map);
 
 
 

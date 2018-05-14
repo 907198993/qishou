@@ -137,7 +137,7 @@ public class WaitingGoodsFragment extends BaseFragment implements LoadMoreAdapte
         RxBus.getInstance().getEvent(LocationEvent.class, new MySubscriber<LocationEvent>() {
             @Override
             public void onMyNext(LocationEvent event) {
-                showMsg(event.longitudeAndlatitude);
+//                showMsg(event.longitudeAndlatitude);
                 longitudeAndlatitude = event.longitudeAndlatitude;
             }
         });
@@ -155,11 +155,14 @@ public class WaitingGoodsFragment extends BaseFragment implements LoadMoreAdapte
     }
 
     private void getData(boolean isLoad) {
-//        if(userStatus.equals("0")){
-//            relativeReset.setVisibility(View.VISIBLE); //如果休息状态，则不去获取订单数据，只显示休息中的文字
-//            return ;
-//        }
 
+        userStatus = SPUtils.getPrefString(mContext, Config.user_status,"0");
+        if(userStatus.equals("0")){
+            relativeReset.setVisibility(View.VISIBLE); //如果休息状态，则不去获取订单数据，只显示休息中的文字
+            return ;
+        }
+        longitudeAndlatitude =  SPUtils.getPrefString(mContext, Config.position,"0");
+        relativeReset.setVisibility(View.GONE); //如果休息状态，则不去获取订单数据，只显示休息中的文字0
         Map<String, String> map = new HashMap<String, String>();
         map.put("coord", longitudeAndlatitude);
         map.put("type", "3");

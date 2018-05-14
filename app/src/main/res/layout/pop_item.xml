@@ -5,54 +5,43 @@
     android:background="@drawable/title_tools_bg"
     android:orientation="vertical" >
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/tv_start_work"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingTop="10dp"
         android:padding="5dp">
-        <ImageView
-            android:layout_marginLeft="7dp"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:scaleType="fitCenter"
-            android:layout_gravity="center_vertical"
-            android:src="@mipmap/ig_work" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="14sp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="7dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:drawableLeft="@mipmap/ig_work"
+            android:layout_centerInParent="true"
             android:text="@string/work" />
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/tv_rest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="5dp">
 
-        <ImageView
-            android:layout_marginLeft="7dp"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:layout_gravity="center_vertical"
-            android:scaleType="fitCenter"
-            android:src="@mipmap/ig_work" />
-
         <TextView
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="14sp"
-            android:layout_marginLeft="5dp"
-            android:text="@string/reset"
-            android:layout_marginRight="7dp"/>
-    </LinearLayout>
+            android:layout_centerInParent="true"
+            android:drawableLeft="@mipmap/reset_image"
+            android:text="@string/reset" />
+    </RelativeLayout>
 
 </LinearLayout>

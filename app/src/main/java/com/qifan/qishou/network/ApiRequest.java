@@ -86,4 +86,20 @@ public class ApiRequest extends BaseApiRequest {
         getGeneralClient(IRequest.class).userBillList(map).enqueue(callBack);
     }
 
+    public static void Gettixian(Map map, MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) {
+            callBack.onFailure(null, new NoNetworkException(Config.noNetWork));
+            return;
+        }
+        getGeneralClient(IRequest.class).Gettixian(map).enqueue(callBack);
+    }
+
+    public static void Withdrawals(Map map, MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) {
+            callBack.onFailure(null, new NoNetworkException(Config.noNetWork));
+            return;
+        }
+        getGeneralClient(IRequest.class).Withdrawals(map).enqueue(callBack);
+    }
+
 }

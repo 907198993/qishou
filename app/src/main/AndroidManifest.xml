@@ -59,7 +59,7 @@
         <activity android:name=".activity.MyWalletActivity"/>
         <activity android:name=".activity.ForgetPasswordActivity"/>
         <activity android:name=".activity.BillActivity"/>
-
+        <activity android:name=".activity.WithdrawalsActivity"/>
 
     </application>
 

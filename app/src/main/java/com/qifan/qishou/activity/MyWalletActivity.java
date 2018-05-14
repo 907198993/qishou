@@ -65,20 +65,16 @@ public class MyWalletActivity extends BaseActivity {
         });
     }
 
-
-    @OnClick({R.id.history_detail_tv})
+    @OnClick({R.id.history_detail_tv,R.id.iv_tixian})
     protected void onViewClick(View v) {
         switch (v.getId()) {
             case R.id.history_detail_tv:
                 STActivity(BillActivity.class);
                 break;
-        }
-    }
+            case R.id.iv_tixian:
+                STActivity(WithdrawalsActivity.class);
+                break;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+        }
     }
 }

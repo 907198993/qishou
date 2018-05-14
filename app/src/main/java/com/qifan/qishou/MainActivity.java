@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.androidtools.PhoneUtils;
@@ -224,10 +225,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (Pop == null) {
             View priceOrderView = LayoutInflater.from(mContext).inflate(R.layout.pop_item, null);
 
-            LinearLayout tv_search_price_order = priceOrderView.findViewById(R.id.tv_start_work);
+            RelativeLayout tv_search_price_order = priceOrderView.findViewById(R.id.tv_start_work);
             tv_search_price_order.setOnClickListener(getOrderListener(0, 0, tv_search_price_order, "接单中 v"));
 
-            LinearLayout tv_search_price_order_asc = priceOrderView.findViewById(R.id.tv_rest);
+            RelativeLayout tv_search_price_order_asc = priceOrderView.findViewById(R.id.tv_rest);
             tv_search_price_order_asc.setOnClickListener(getOrderListener(0, 1, tv_search_price_order_asc, "未开工 v"));
 
             Pop = new MyPopupwindow(mContext, priceOrderView, PhoneUtils.getScreenWidth(mContext) /4, -1);
@@ -236,26 +237,35 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         Pop.showAsDropDown(tvStartOrRest,-20, 10);
     }
     @NonNull
-    private MyOnClickListener getOrderListener(int flag,final  int index, LinearLayout textView,final String text) {
+    private MyOnClickListener getOrderListener(int flag,final  int index, RelativeLayout textView,final String text) {
         return new MyOnClickListener() {
             @Override
             protected void onNoDoubleClick(View view) {
-                if(index==0){//
+                userStatus = SPUtils.getPrefString(mContext, Config.user_status,"0");
+                if(userStatus=="0"&& index ==1){ //如果休息中，点击休息则跳过。
+                  return ;
+                } else
+                if(userStatus=="1"&& index ==0){
+                    return ;
+                }
+               else if(index==0){//
                     tvStartOrRest.setText("接单中 v");
                     Intent startIntent = new Intent(MainActivity.this, LocationServices.class);
                     startService(startIntent);
                     showMsg("开始接单");
                     //发送接单通知
-                    RxBus.getInstance().post(new ResetEvent(1));
                     SPUtils.setPrefString(mContext, Config.user_status,"1");//1 可接单状态
+                    RxBus.getInstance().post(new ResetEvent(1));
+
                 }else{
                     tvStartOrRest.setText("未开工 v");
                     Intent stopIntent = new Intent(MainActivity.this, LocationServices.class);
                     stopService(stopIntent);
                     showMsg("停止接单");
                    //发送休息通知
-                    RxBus.getInstance().post(new ResetEvent(0));
                     SPUtils.setPrefString(mContext, Config.user_status,"0");//0 代表休息状态
+                    RxBus.getInstance().post(new ResetEvent(0));
+
                 }
                 Pop.dismiss();
 //                showLoading();

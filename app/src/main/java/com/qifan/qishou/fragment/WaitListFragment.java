@@ -179,7 +179,7 @@ public class WaitListFragment extends BaseFragment implements LoadMoreAdapter.On
         RxBus.getInstance().getEvent(LocationEvent.class, new MySubscriber<LocationEvent>() {
             @Override
             public void onMyNext(LocationEvent event) {
-                showMsg(event.longitudeAndlatitude);
+//                showMsg(event.longitudeAndlatitude);
                 longitudeAndlatitude = event.longitudeAndlatitude;
             }
         });
@@ -189,9 +189,10 @@ public class WaitListFragment extends BaseFragment implements LoadMoreAdapter.On
             public void onMyNext(ResetEvent event) {
                 if (event.ResetEvent == 1) {
                     relativeReset.setVisibility(View.GONE);//开启接单，后隐藏休息界面
+                    getData(false);
                 }else{
                     relativeReset.setVisibility(View.VISIBLE);
-                    getData(false);
+
                 }
             }
         });
@@ -199,6 +200,13 @@ public class WaitListFragment extends BaseFragment implements LoadMoreAdapter.On
     }
 
     private void getData(boolean isLoad) {
+        userStatus = SPUtils.getPrefString(mContext, Config.user_status,"0");
+        if(userStatus.equals("0")){
+            relativeReset.setVisibility(View.VISIBLE); //如果休息状态，则不去获取订单数据，只显示休息中的文字
+            return ;
+        }
+        longitudeAndlatitude =  SPUtils.getPrefString(mContext, Config.position,"0");
+        relativeReset.setVisibility(View.GONE); //如果休息状态，则不去获取订单数据，只显示休息中的文字
         showProgress();
         Map<String, String> map = new HashMap<String, String>();
         map.put("coord", longitudeAndlatitude);

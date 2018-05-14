@@ -116,7 +116,7 @@ public class WaitingSendGoodsFragment extends BaseFragment implements LoadMoreAd
 
     @Override
     protected void initData() {
-        userStatus = SPUtils.getPrefString(mContext, Config.user_status,"0");
+
         getData(false);
 
     }
@@ -142,6 +142,7 @@ public class WaitingSendGoodsFragment extends BaseFragment implements LoadMoreAd
                 if (event.ResetEvent == 1) {
                     getData(false);
                 }else{
+
                 }
             }
         });
@@ -149,12 +150,13 @@ public class WaitingSendGoodsFragment extends BaseFragment implements LoadMoreAd
     }
 
     private void getData(boolean isLoad) {
-
-//        if(userStatus.equals("0")){
-//            relativeReset.setVisibility(View.VISIBLE); //如果休息状态，则不去获取订单数据，只显示休息中的文字
-//            return ;
-//        }
-
+         userStatus = SPUtils.getPrefString(mContext, Config.user_status,"0");
+        if(userStatus.equals("0")){
+            relativeReset.setVisibility(View.VISIBLE); //如果休息状态，则不去获取订单数据，只显示休息中的文字
+            return ;
+        }
+        longitudeAndlatitude =  SPUtils.getPrefString(mContext, Config.position,"0");
+        relativeReset.setVisibility(View.GONE); //如果休息状态，则不去获取订单数据，只显示休息中的文字
         Map<String, String> map = new HashMap<String, String>();
         map.put("coord", longitudeAndlatitude);
         map.put("type", "3");

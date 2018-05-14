@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_f2"
+    >
+    <include layout="@layout/app_title"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <com.github.customview.MyLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                app:my_ll_corner_topLeftRadius="4dp"
+                app:my_ll_corner_topRightRadius="4dp"
+                app:my_ll_solid="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center_vertical"
+                    android:src="@mipmap/user_name"
+                    android:text="提现帐号" />
+
+                <com.github.customview.MyEditText
+                    android:id="@+id/et_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:enabled="false"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:textSize="15sp" />
+            </com.github.customview.MyLinearLayout>
+
+            <com.github.customview.MyLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="2px"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                app:my_ll_corner_bottomLeftRadius="4dp"
+                app:my_ll_corner_bottomRightRadius="4dp"
+                app:my_ll_solid="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center_vertical"
+                    android:src="@mipmap/user_name"
+                    android:text="支付宝号" />
+
+                <com.github.customview.MyEditText
+                    android:id="@+id/et_zhifubao"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="请输入支付宝账号"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="15sp" />
+            </com.github.customview.MyLinearLayout>
+
+            <com.github.customview.MyLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="2px"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                app:my_ll_corner_bottomLeftRadius="4dp"
+                app:my_ll_corner_bottomRightRadius="4dp"
+                app:my_ll_solid="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center_vertical"
+                    android:src="@mipmap/user_name"
+                    android:text="提现金额" />
+
+                <com.github.customview.MyEditText
+                    android:id="@+id/et_money"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="请输入提现金额（元）"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="15sp" />
+            </com.github.customview.MyLinearLayout>
+            <TextView
+                android:id="@+id/tv_enable_withdrawal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/gray_66"
+                />
+            <com.github.customview.MyTextView
+                android:id="@+id/tv_commit"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="10dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="确定提现"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:my_tv_corner_radius="4dp"
+                app:my_tv_press="@color/button_press"
+                app:my_tv_solid="@color/main_background" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>
