@@ -46,7 +46,6 @@ public class BillActivity extends BaseActivity implements LoadMoreAdapter.OnLoad
                 holder.setText(R.id.tv_order_price, "¥" + bean.getCharge())
                         .setText(R.id.tv_shop_name, bean.getShopName())
                         .setText(R.id.tv_shop_address, bean.getShopAddress())
-                        .setText(R.id.tv_customer_distance, (bean.getScdistance()))
                         .setText(R.id.tv_customer_name, bean.getCustomerName())
                         .setText(R.id.tv_customer_address, bean.getCustomerAddress());
 
@@ -54,7 +53,7 @@ public class BillActivity extends BaseActivity implements LoadMoreAdapter.OnLoad
         };
         adapter.setOnLoadMoreListener(this);
         rv_bill.setLayoutManager(new LinearLayoutManager(mContext));
-        rv_bill.addItemDecoration(getItemDivider());
+
         rv_bill.setAdapter(adapter);
 
         pcfl.setPtrHandler(new PtrDefaultHandler() {

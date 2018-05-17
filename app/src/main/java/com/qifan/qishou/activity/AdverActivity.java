@@ -1,13 +1,24 @@
 package com.qifan.qishou.activity;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.github.androidtools.SPUtils;
@@ -59,8 +70,7 @@ public class AdverActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        Intent startIntent = new Intent(AdverActivity.this, LocationServices.class);
-        startService(startIntent);
+
         imgPath = SPUtils.getPrefString(this, Config.imgPath, null);
         userName =  SPUtils.getPrefString(this, Config.user_name, null);
         if(!TextUtils.isEmpty(imgPath)){
@@ -145,4 +155,6 @@ public class AdverActivity extends BaseActivity {
             task=null;
         }
     }
+
+
 }

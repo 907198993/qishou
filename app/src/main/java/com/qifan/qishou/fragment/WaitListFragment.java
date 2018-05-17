@@ -34,6 +34,7 @@ import com.qifan.qishou.base.BaseFragment;
 import com.qifan.qishou.base.MyCallBack;
 import com.qifan.qishou.event.LocationEvent;
 import com.qifan.qishou.event.RefreshEvent;
+import com.qifan.qishou.event.RefreshFragmentEvent;
 import com.qifan.qishou.event.ResetEvent;
 import com.qifan.qishou.network.ApiRequest;
 import com.qifan.qishou.network.response.GradObj;
@@ -138,8 +139,7 @@ public class WaitListFragment extends BaseFragment implements LoadMoreAdapter.On
                                 if(gradObj.getResult()==1){
                                     showToastS("抢单成功");
                                     RxBus.getInstance().post(new RefreshEvent(0,size-1));//抢单成功后个数减一
-                                    adapter.notifyItemRemoved(position);
-
+                                    RxBus.getInstance().post(new RefreshFragmentEvent(0));//
                                 }else{
                                     showToastS("抢单失败");
                                 }
@@ -152,7 +152,6 @@ public class WaitListFragment extends BaseFragment implements LoadMoreAdapter.On
         };
         adapter.setOnLoadMoreListener(this);
         rvOrderClass.setLayoutManager(new LinearLayoutManager(mContext));
-        rvOrderClass.addItemDecoration(getItemDivider());
         rvOrderClass.setAdapter(adapter);
 
         pcfl.setPtrHandler(new PtrDefaultHandler() {
@@ -194,6 +193,16 @@ public class WaitListFragment extends BaseFragment implements LoadMoreAdapter.On
                     relativeReset.setVisibility(View.VISIBLE);
 
                 }
+            }
+        });
+        //每个页面操作后刷新提示
+        RxBus.getInstance().getEvent(RefreshFragmentEvent.class, new MySubscriber<RefreshFragmentEvent>() {
+            @Override
+            public void onMyNext(RefreshFragmentEvent event) {
+                if(event.Refresh==0){
+                    getData(false);
+                }
+
             }
         });
 

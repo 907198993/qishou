@@ -23,6 +23,7 @@ import com.qifan.qishou.base.BaseFragment;
 import com.qifan.qishou.base.MyCallBack;
 import com.qifan.qishou.event.LocationEvent;
 import com.qifan.qishou.event.RefreshEvent;
+import com.qifan.qishou.event.RefreshFragmentEvent;
 import com.qifan.qishou.event.ResetEvent;
 import com.qifan.qishou.network.ApiRequest;
 import com.qifan.qishou.network.response.GradObj;
@@ -94,8 +95,8 @@ public class WaitingGoodsFragment extends BaseFragment implements LoadMoreAdapte
                             public void onSuccess(GradObj gradObj) {
                                 if(gradObj.getResult()==1){
                                     showToastS("取货成功");
-                                    RxBus.getInstance().post(new RefreshEvent(0,size-1));//抢单成功后个数减一
-                                    adapter.notifyItemRemoved(position);
+                                    RxBus.getInstance().post(new RefreshEvent(1,size-1));//抢单成功后个数减一
+                                    RxBus.getInstance().post(new RefreshFragmentEvent(1));//
                                 }else{
                                     showToastS("取货失败");
                                 }
@@ -107,7 +108,6 @@ public class WaitingGoodsFragment extends BaseFragment implements LoadMoreAdapte
         };
         adapter.setOnLoadMoreListener(this);
         rvOrderClass.setLayoutManager(new LinearLayoutManager(mContext));
-        rvOrderClass.addItemDecoration(getItemDivider());
         rvOrderClass.setAdapter(adapter);
         pcfl.setPtrHandler(new PtrDefaultHandler() {
             @Override
@@ -147,6 +147,14 @@ public class WaitingGoodsFragment extends BaseFragment implements LoadMoreAdapte
                 if (event.ResetEvent == 1) {
                     getData(false);
                 }else{
+                }
+            }
+        });
+        //每个页面操作后刷新提示
+        RxBus.getInstance().getEvent(RefreshFragmentEvent.class, new MySubscriber<RefreshFragmentEvent>() {
+            @Override
+            public void onMyNext(RefreshFragmentEvent event) {
+                if(event.Refresh==0 ||event.Refresh==1){
                     getData(false);
                 }
             }

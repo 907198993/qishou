@@ -1,9 +1,14 @@
 package com.qifan.qishou.service;
 
+import android.Manifest;
 import android.app.Service;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.IBinder;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -13,10 +18,13 @@ import com.baidu.mapapi.model.LatLng;
 import com.github.androidtools.SPUtils;
 import com.github.baseclass.rx.RxBus;
 import com.qifan.qishou.Config;
+import com.qifan.qishou.MainActivity;
 import com.qifan.qishou.event.LocationEvent;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static com.baidu.mapapi.BMapManager.init;
 
 /**
  * Created by Administrator on 2018/5/11 0011.
@@ -26,6 +34,8 @@ public class LocationServices extends Service {
 
     //定位点信息
     public LatLng latlng;
+    private static final int REQUEST_CONTACTS = 1000;
+    private static final int BAIDU_READ_PHONE_STATE =100;
     private String strLocationProvince;//定位点的省份
     private String strLocationCity;//定位点的城市
     private String strLocationDistrict;//定位点的区县
@@ -88,7 +98,9 @@ public class LocationServices extends Service {
                         try {
                             Log.d("tag", "isStop="+isStop);
                             Log.d("tag", "mMyLocationListener="+mMyLocationListener);
+
                             mLocationClient.start();
+
                             Log.d("tag", "mLocationClient.start()");
                             Log.d("tag", "mLocationClient=="+mLocationClient);
                             Thread.sleep(1000*10);//10秒后再次执行
@@ -107,6 +119,31 @@ public class LocationServices extends Service {
             mTimer.schedule(mTimerTask, 0);//执行定时器中的任务
         }
     }
+
+
+
+
+//    //Android6.0申请权限的回调方法
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        switch (requestCode) {
+//            // requestCode即所声明的权限获取码，在checkSelfPermission时传入
+//            case BAIDU_READ_PHONE_STATE:
+//                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    // 获取到权限，作相应处理（调用定位SDK应当确保相关权限均被授权，否则可能引起定位失败）
+//                    init();
+//                } else {
+//                    // 没有获取到权限，做特殊处理
+//                    Toast.makeText(getApplicationContext(), "获取位置权限失败，请手动开启", Toast.LENGTH_SHORT).show();
+//                }
+//                break;
+//            default:
+//                break;
+//        }
+//    }
+
+
     /**
      * 停止定时器，初始化定时器开关
      */

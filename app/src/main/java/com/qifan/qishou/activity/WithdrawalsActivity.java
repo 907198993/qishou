@@ -14,6 +14,7 @@ import com.qifan.qishou.R;
 import com.qifan.qishou.base.BaseActivity;
 import com.qifan.qishou.base.MyCallBack;
 import com.qifan.qishou.network.ApiRequest;
+import com.qifan.qishou.network.response.GradObj;
 import com.qifan.qishou.network.response.WithdrawalsObj;
 
 import java.util.HashMap;
@@ -76,10 +77,25 @@ public class WithdrawalsActivity extends BaseActivity {
                 double edit_money = Double.valueOf(etMoney.getText().toString());
                 if(edit_money>enable_money){
                     showMsg("请输入正确的金额");
-                }else if(enable_money<0.01){
+                }else if(enable_money<=0.01){
                     showMsg("请输入正确的金额");
                 }else{
-                    showMsg("正确");
+                    showProgress();
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("userid", SPUtils.getPrefString(mContext, Config.user_id, null));
+                    map.put("money",etMoney.getText().toString());
+                    map.put("account",etZhifubao.getText().toString());
+                    map.put("sign", GetSign.getSign(map));
+                    ApiRequest.Withdrawals(map, new MyCallBack<GradObj>(mContext, pcfl, pl_load) {
+                        @Override
+                        public void onSuccess(GradObj walletObj) {
+                           if(walletObj.getResult() ==1){
+                               showMsg("申请提现成功");
+                               finish();
+                           }
+                        }
+                    });
+
                 }
                 break;
         }

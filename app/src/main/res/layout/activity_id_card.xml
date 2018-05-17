@@ -22,9 +22,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:src="@mipmap/idcard_positive"
-
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@+id/iv_id1"
+                android:visibility="gone"
+                android:scaleType="fitXY"
                 />
     <com.github.customview.MyLinearLayout
+        android:id="@+id/linearImage1"
         android:background="@mipmap/background_add_idcard"
         android:layout_width="match_parent"
         android:layout_height="160dp"
@@ -50,7 +57,15 @@
                 android:src="@mipmap/idcard_positive"
 
                 />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@+id/iv_id2"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                />
             <com.github.customview.MyLinearLayout
+                android:id="@+id/linearImage2"
                 android:background="@mipmap/background_add_idcard"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"

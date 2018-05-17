@@ -6,6 +6,8 @@ import com.qifan.qishou.network.response.GradObj;
 import com.qifan.qishou.network.response.LoginObj;
 import com.qifan.qishou.network.response.OrderListObj;
 import com.qifan.qishou.network.response.RegisterObj;
+import com.qifan.qishou.network.response.UploadImageObj;
+import com.qifan.qishou.network.response.UploadImgItem;
 import com.qifan.qishou.network.response.WalletObj;
 import com.qifan.qishou.network.response.WithdrawalsObj;
 
@@ -13,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.QueryMap;
@@ -66,6 +69,13 @@ public interface IRequest {
     @POST("api/Account/tixian")
     Call<ResponseObj<GradObj>> Withdrawals(@QueryMap Map<String,String> map);
 
+    //图片上传
+    @POST("api/Lib/PostUploadFileBase64")
+    Call<ResponseObj<UploadImageObj>> uploadImg(@QueryMap Map<String, String> map, @Body UploadImgItem item);
+
+    //实名认证
+    @POST("api/Login/UploadCard")
+    Call<ResponseObj<GradObj>> UploadCard(@QueryMap Map<String,String> map);
 
 
 

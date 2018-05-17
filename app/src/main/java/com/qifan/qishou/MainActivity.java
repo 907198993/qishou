@@ -1,15 +1,29 @@
 package com.qifan.qishou;
 
+import android.Manifest;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
+import android.location.LocationManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,13 +34,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.qzs.voiceannouncementlibrary.VoiceUtils;
 import com.github.androidtools.PhoneUtils;
 import com.github.androidtools.SPUtils;
 import com.github.androidtools.inter.MyOnClickListener;
 import com.github.baseclass.rx.MySubscriber;
 import com.github.baseclass.rx.RxBus;
 import com.github.baseclass.view.MyPopupwindow;
+import com.qifan.qishou.activity.AdverActivity;
+import com.qifan.qishou.activity.CheckPermissionsActivity;
+import com.qifan.qishou.activity.CommitIdCardActivity;
 import com.qifan.qishou.activity.LoginActivity;
 import com.qifan.qishou.activity.MyWalletActivity;
 import com.qifan.qishou.adapter.MyViewPagerAdapter;
@@ -38,6 +57,11 @@ import com.qifan.qishou.fragment.WaitListFragment;
 import com.qifan.qishou.fragment.WaitingGoodsFragment;
 import com.qifan.qishou.fragment.WaitingSendGoodsFragment;
 import com.qifan.qishou.service.LocationServices;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.PermissionNo;
+import com.yanzhenjie.permission.PermissionYes;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -59,6 +83,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     TextView tvStartOrRest;
     private long mExitTime;
     private String userStatus;
+
+    private static final String TAG = "MainActivity";
+
+    private static final int CAMERA_REQUESTCODE = 101;
+    private static final int LOCATION_CONTACTS_REQUESTCODE = 102;
     @Override
     protected int getContentView() {
         return R.layout.activity_main;
@@ -78,9 +107,26 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             RxBus.getInstance().post(new ResetEvent(1));
         }
     }
+    // 成功回调的方法，用注解即可，这里的300就是请求时的requestCode。
+    @PermissionYes(300)
+    private void getPermissionYes(List<String> grantedPermissions) {
+        // TODO 申请权限成功。
+    }
 
+    @PermissionNo(300)
+    private void getPermissionNo(List<String> deniedPermissions) {
+        // TODO 申请权限失败。
+    }
     @Override
     protected void initData() {
+        // 在Activity：
+        AndPermission.with(MainActivity.this)
+                .permission(Manifest.permission.ACCESS_FINE_LOCATION)
+                .requestCode(300)
+                .callback(this)
+                .start();
+
+
         initUiAndData();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -100,6 +146,22 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch(requestCode){
+            case 0:
+                // 处理用户授权的返回结果
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+                    // 授权失败
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     @OnClick({R.id.tv_start_or_rest,R.id.iv_my_alarm})
@@ -203,7 +265,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             STActivity(MyWalletActivity.class);
 
         } else if (id == R.id.message) {
-
+            STActivity(CommitIdCardActivity.class);
         } else if (id == R.id.work_setting) {
 
         } else if (id == R.id.help) {
@@ -236,6 +298,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
         Pop.showAsDropDown(tvStartOrRest,-20, 10);
     }
+    private MediaPlayer mPlayer = null;
     @NonNull
     private MyOnClickListener getOrderListener(int flag,final  int index, RelativeLayout textView,final String text) {
         return new MyOnClickListener() {
@@ -249,15 +312,27 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     return ;
                 }
                else if(index==0){//
-                    tvStartOrRest.setText("接单中 v");
-                    Intent startIntent = new Intent(MainActivity.this, LocationServices.class);
-                    startService(startIntent);
-                    showMsg("开始接单");
-                    //发送接单通知
-                    SPUtils.setPrefString(mContext, Config.user_status,"1");//1 可接单状态
-                    RxBus.getInstance().post(new ResetEvent(1));
+                   if(isOPen(mContext)==false) {
+
+                     showMsg("未开启gps");
+                       return ;
+                   }
+//
+//                    mPlayer = MediaPlayer.create(MainActivity.this,R.raw.music);
+//                    mPlayer.setLooping(true);
+//                    mPlayer.start();
+
+//                    Play("开始接单啦");
+                            tvStartOrRest.setText("接单中 v");
+                            Intent startIntent = new Intent(MainActivity.this, LocationServices.class);
+                            startService(startIntent);
+                            showMsg("开始接单");
+                            //发送接单通知
+                            SPUtils.setPrefString(mContext, Config.user_status,"1");//1 可接单状态
+                            RxBus.getInstance().post(new ResetEvent(1));
 
                 }else{
+//                    Play("停止接单");
                     tvStartOrRest.setText("未开工 v");
                     Intent stopIntent = new Intent(MainActivity.this, LocationServices.class);
                     stopService(stopIntent);
@@ -272,6 +347,91 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         };
     }
+
+//    @RequiresApi(api = Build.VERSION_CODES.M)
+//    public void requestLocationAndContacts() {
+//        if(!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)){
+//            Toast.makeText(this, "xxxxx", Toast.LENGTH_LONG).show();
+//        }
+//
+//        String[] perms = { Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION};
+//        if (EasyPermissions.hasPermissions(this, perms)) {
+//            Toast.makeText(this, "已授权 联系人和 位置信息", Toast.LENGTH_LONG).show();
+//
+//        } else {
+//            Uri packageURI = Uri.parse("package:" + mContext.getPackageName());
+//            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
+//            startActivity(intent);
+//        }
+//    }
+//
+//
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        // EasyPermissions 权限处理请求结果
+//        Log.i(TAG,"onRequestPermissionsResult:"+ requestCode);
+//        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+//    }
+//
+//    //同意授权
+//    @Override
+//    public void onPermissionsGranted(int requestCode, List<String> perms) {
+//        Log.d(TAG, "onPermissionsGranted:" + requestCode + ":" + perms.size());
+//    }
+//
+//    //拒绝授权
+//    @Override
+//    public void onPermissionsDenied(int requestCode, List<String> perms) {
+//        Log.d(TAG, "onPermissionsDenied:" + requestCode + ":" + perms.size());
+//    }
+//
+//    public boolean showContacts(){
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED
+//                || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED
+//                || ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
+//                != PackageManager.PERMISSION_GRANTED) {
+//            Toast.makeText(getApplicationContext(),"没有权限,请手动开启定位权限",Toast.LENGTH_SHORT).show();
+////            // 申请一个（或多个）权限，并提供用于回调返回的获取码（用户定义）
+//            return false;
+////            ActivityCompat.requestPermissions(getApplicationContext(),new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE}, BAIDU_READ_PHONE_STATE);
+//        }else{
+//            return true;
+//        }
+//    }
+
+    public static final boolean isOPen(final Context context) {
+        LocationManager locationManager
+                = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        // 通过GPS卫星定位，定位级别可以精确到街（通过24颗卫星定位，在室外和空旷的地方定位准确、速度快）
+        boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        // 通过WLAN或移动网络(3G/2G)确定的位置（也称作AGPS，辅助GPS定位。主要用于在室内或遮盖物（建筑群或茂密的深林等）密集的地方定位）
+        boolean network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        if (gps || network) {
+            return true;
+        }
+        return false;
+      }
+
+    public static final void openGPS(Context context) {
+        Intent GPSIntent = new Intent();
+        GPSIntent.setClassName("com.android.settings",
+                "com.android.settings.widget.SettingsAppWidgetProvider");
+        GPSIntent.addCategory("android.intent.category.ALTERNATIVE");
+        GPSIntent.setData(Uri.parse("custom:3"));
+        try {
+            PendingIntent.getBroadcast(context, 0, GPSIntent, 0).send();
+        } catch (PendingIntent.CanceledException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
     @Override
     protected void onDestroy() {
         // TODO Auto-generated method stub

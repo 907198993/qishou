@@ -5,6 +5,7 @@ import com.github.retrofitutil.NoNetworkException;
 import com.qifan.qishou.Config;
 import com.qifan.qishou.base.BaseApiRequest;
 import com.qifan.qishou.base.MyCallBack;
+import com.qifan.qishou.network.response.UploadImgItem;
 
 import java.util.Map;
 
@@ -100,6 +101,21 @@ public class ApiRequest extends BaseApiRequest {
             return;
         }
         getGeneralClient(IRequest.class).Withdrawals(map).enqueue(callBack);
+    }
+    public static void uploadImg(Map map, UploadImgItem item, MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) {
+            callBack.onFailure(null, new NoNetworkException(Config.noNetWork));
+            return;
+        }
+        getGeneralClient(IRequest.class).uploadImg(map, item).enqueue(callBack);
+    }
+
+    public static void UploadCard(Map map, MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) {
+            callBack.onFailure(null, new NoNetworkException(Config.noNetWork));
+            return;
+        }
+        getGeneralClient(IRequest.class).UploadCard(map).enqueue(callBack);
     }
 
 }
