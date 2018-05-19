@@ -1,6 +1,10 @@
 package com.qifan.qishou.activity;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,6 +20,7 @@ import com.qifan.qishou.base.MyCallBack;
 import com.qifan.qishou.network.ApiRequest;
 import com.qifan.qishou.network.response.GradObj;
 import com.qifan.qishou.network.response.WithdrawalsObj;
+import com.qifan.qishou.tools.MaxTextLengthFilter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +47,12 @@ public class WithdrawalsActivity extends BaseActivity {
     @BindView(R.id.tv_enable_withdrawal)
     TextView tv_enable_withdrawal;
    private  double enable_money; //可取金额
+    private static final int DEFAULT_DECIMAL_NUMBER = 2;
+    /**
+     * 保留小数点后多少位
+     */
+    private int mDecimalNumber = DEFAULT_DECIMAL_NUMBER;
+
     @Override
     protected int getContentView() {
         setAppTitle("提现");
@@ -50,9 +61,11 @@ public class WithdrawalsActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        InputFilter[] filters = {new MaxTextLengthFilter(mContext,10,true,"请重新输入")};
+        etMoney.setFilters(filters);
+
 
     }
-
     @Override
     protected void initData() {
         showProgress();

@@ -317,10 +317,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                      showMsg("未开启gps");
                        return ;
                    }
-//
-//                    mPlayer = MediaPlayer.create(MainActivity.this,R.raw.music);
-//                    mPlayer.setLooping(true);
-//                    mPlayer.start();
+
+                    mPlayer = MediaPlayer.create(MainActivity.this,R.raw.jiedan);
+                    mPlayer.setLooping(false);
+                    mPlayer.start();
 
 //                    Play("开始接单啦");
                             tvStartOrRest.setText("接单中 v");
